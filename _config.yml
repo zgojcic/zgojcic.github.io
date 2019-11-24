@@ -111,7 +111,7 @@ author:
   avatar           : "/images/bio_photo.jpg"
   bio              : "PhD Student at ETH Zurich"
   location         : "Zurich, Switzerland"
-  email            : "zan.gojcic@geod.baug.ethz.ch"
+  #email            : "zan.gojcic@geod.baug.ethz.ch"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
