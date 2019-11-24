@@ -8,9 +8,6 @@ image:
 ---
 
 **May 2019:** I have won the best oral presentation award at the Join International Symposium on Deformation Monitoring (JISDM) 2019 with the paper <a href="https://research.google.com" target="_blank"> Robust pointwise correspondences for point cloud based deformation monitoring of natural scenes</a> 
----
-
-
 
 I am a research scientist at <a href="https://research.google.com" target="_blank">Google Research</a> 
 and part of the advisory board of <a href="http://www.vilynx.com/index.html" target="_blank">Vilynx</a>.
