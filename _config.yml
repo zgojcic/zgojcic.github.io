@@ -126,7 +126,7 @@ author:
       icon: "ai fa-fw ai-researchgate-square"
       url:  "https://www.researchgate.net/profile/Zan_Gojcic"
     - label: "Linkedin"
-      icon: "fab fa-fw fa-linkedin-square"
+      icon: "fa fa-fw fa-linkedin-square"
       url: "https://ch.linkedin.com/in/zan-gojcic-92104b107"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
