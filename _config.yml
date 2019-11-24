@@ -109,16 +109,13 @@ analytics:
 author:
   name             : "Zan Gojcic"
   avatar           : "/images/bio_photo.jpg"
-  bio              : "PhD Student at ETH Zurich"
+  bio              : "PhD Student at ETH Zurich. Passionate about food, traveling and football."
   location         : "Zurich, Switzerland"
   #email            : "zan.gojcic@geod.baug.ethz.ch"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
       url: mailto:zan.gojcic@geod.baig.ethz.ch
-    - label: "Website"
-      icon: "fas fa-fw fa-link"
-      # url: "https://your-website.com"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/zgojcic"
@@ -129,7 +126,7 @@ author:
       icon: "ai fa-fw ai-researchgate-square"
       url:  "https://www.researchgate.net/profile/Zan_Gojcic"
     - label: "Linkedin"
-      icon: "fab fa-fw fa-linkedin-square"
+      icon: "fa fa-fw fa-linkedin-square"
       url: "https://ch.linkedin.com/in/zan-gojcic-92104b107"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
