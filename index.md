@@ -1,11 +1,16 @@
 ---
 layout: home2
-title: Me in a Nutshell
+title: News
 description: "Zan Gojcic's website"
 tags: [Jekyll, theme, responsive, blog, template]
 image:
   feature: mountains.png
 ---
+
+May 2019: I won the best oral presentation award at the Join International Symposium on Deformation Monitoring (JISDM) 2019 with the paper <a href="https://research.google.com" target="_blank"> Robust pointwise correspondences for point cloud based deformation monitoring of natural scenes</a> 
+-----
+
+
 
 I am a research scientist at <a href="https://research.google.com" target="_blank">Google Research</a> 
 and part of the advisory board of <a href="http://www.vilynx.com/index.html" target="_blank">Vilynx</a>.
@@ -18,4 +23,7 @@ and with the startup <a href="https://gestoos.com" target="_blank">Fezoo</a>.
 
 <br />
 I am a mathematician, engineer, and PhD in computer vision by <a href="http://www.upc.edu" target="_blank">UPC Barcelonatech</a>.
+
+
+---
 
