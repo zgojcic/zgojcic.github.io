@@ -7,8 +7,8 @@ image:
   feature: mountains.png
 ---
 
-May 2019: I won the best oral presentation award at the Join International Symposium on Deformation Monitoring (JISDM) 2019 with the paper <a href="https://research.google.com" target="_blank"> Robust pointwise correspondences for point cloud based deformation monitoring of natural scenes</a> 
------
+**May 2019:** I have won the best oral presentation award at the Join International Symposium on Deformation Monitoring (JISDM) 2019 with the paper <a href="https://research.google.com" target="_blank"> Robust pointwise correspondences for point cloud based deformation monitoring of natural scenes</a> 
+---
 
 
 
