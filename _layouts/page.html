@@ -7,7 +7,7 @@
 {% include _head.html %}
 </head>
 
-<body class="home">
+<body class="page">
 
 {% include _browser-upgrade.html %}
 
@@ -30,22 +30,19 @@
   </div><!-- /.image-wrap -->
 {% endif %}
 
-<div class="article-author-side">
-  {% include _author-bio.html %}
-</div>
-
-<div id="index">
-  <h3><a href="{{ site.url}}/posts/">Recent Posts</a></h3>
-  {% for post in site.posts limit:5 %}    
+<div id="main" role="main">
+  <div class="article-author-side">
+    {% include _author-bio.html %}
+  </div>
   <article>
-    {% if post.link %}
-      <h2 class="link-post"><a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a> <a href="{{ post.link }}" target="_blank" title="{{ post.title }}"><i class="icon-link"></i></h2>
-    {% else %}
-      <h2><a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></h2>
-      <p>{% if post.description %}{{ post.description }}{% else %}{{ post.content | strip_html | strip_newlines | truncate: 120 }}{% endif %}</p>
+    <h1>{{ page.title }}</h1>
+    <div class="article-wrap">
+      {{ content }}
+    </div><!-- /.article-wrap -->
+    {% if site.disqus_shortname and page.comments %}
+      <section id="disqus_thread"></section><!-- /#disqus_thread -->
     {% endif %}
   </article>
-  {% endfor %}
 </div><!-- /#index -->
 
 <div class="footer-wrap">
@@ -54,7 +51,7 @@
   </footer>
 </div><!-- /.footer-wrap -->
 
-{% include _scripts.html %}
-  
+{% include _scripts.html %}          
+
 </body>
 </html>
