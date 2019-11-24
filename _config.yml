@@ -109,7 +109,7 @@ analytics:
 author:
   name             : "Zan Gojcic"
   avatar           : "/images/bio_photo.jpg"
-  bio              : "PhD Student at ETH Zurich. Passionate about food, traveling and football."
+  bio              : "From a small village near Maribor, Slovenia. Currently a PhD Student at ETH Zurich. Passionate about food, traveling and football."
   location         : "Zurich, Switzerland"
   #email            : "zan.gojcic@geod.baug.ethz.ch"
   links:
@@ -126,7 +126,7 @@ author:
       icon: "ai fa-fw ai-researchgate-square"
       url:  "https://www.researchgate.net/profile/Zan_Gojcic"
     - label: "Linkedin"
-      icon: "fa fa-fw fa-linkedin-square"
+      icon: "fa fa-linkedin-square"
       url: "https://ch.linkedin.com/in/zan-gojcic-92104b107"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
