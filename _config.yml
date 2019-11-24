@@ -108,7 +108,7 @@ analytics:
 # Site Author
 author:
   name             : "Zan Gojcic"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "/images/bio-photo.jpg"
   bio              : "I am an **amazing** person."
   location         : "Somewhere"
   email            : "zan.gojcic@geod.baug.ethz.ch"
