@@ -12,11 +12,11 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "contrast" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Zan Gojcic's personal website"
+title                    : "Zan Gojcic's site"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "Zan Gojcic"
@@ -109,13 +109,13 @@ analytics:
 author:
   name             : "Zan Gojcic"
   avatar           : "/images/bio_photo.jpg"
-  bio              : "I am an **amazing** person."
-  location         : "Somewhere"
+  bio              : "PhD Student at ETH Zurich"
+  location         : "Zurich, Switzerland"
   email            : "zan.gojcic@geod.baug.ethz.ch"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      # url: mailto:your.name@email.com
+      url: mailto:zan.gojcic@geod.baig.ethz.ch
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
