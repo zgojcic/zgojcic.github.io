@@ -10,16 +10,14 @@ disqus_shortname: zgojcic
 owner:
   name:          Zan Gojcic
   avatar:         zan.jpg
-  bio:            From a small town near Maribor Slovenia. Currently a PhD student at ETH Zürich. Love good food, traveling and football.
+  bio:            From a small town near Maribor, Slovenia. Currently a PhD student at ETH Zürich. Love good food, traveling and football.
   email:          zan.gojcic@geod.baug.ethz.ch
   # Social networking links are used in author-bio sidebar. Update and remove as you like.
   github: zgojcic
   google_scholar: 8KsqL4gAAAAJ&hl=en
   research_gate:  Zan_Gojcic
   twitter: zgojcic
-  linkedin: zgojcic
-  
-  
+  linkedin: zan-gojcic-92104b107
 
 # Links to include in top navigation
 # For external links add external: true
