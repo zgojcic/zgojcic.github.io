@@ -2,11 +2,11 @@
 main:
   - title: "About"
     url: /about/
-   - title: "Resume"
+  - title: "Resume"
     url: /about/
-    - title: "Projects"
+  - title: "Projects"
     url: /projects/
-    - title: "Publications"
+  - title: "Publications"
     url: /publications/
   #  - title: "About"
   #   url: https://mmistakes.github.io/minimal-mistakes/about/
