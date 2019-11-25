@@ -12,6 +12,11 @@
   .bottom-small {
      margin-bottom: 1cm;
    }
+  .bos-shadow{
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 10px #888888;
+}
 </style>
 </head>
 
@@ -70,7 +75,10 @@
     <p align="center" class="bottom-three">&#8226 Ich beginne <strong>Deutsch</strong> zu lernen.</p>
     
     
-    
+    <h2>box-shadow: 5px 10px:</h2>
+    <div id="example1">
+    <p>A div element with a shadow. The first value is the horizontal offset and the second value is the vertical offset.  The shadow color will be inherited from the text color.</p>
+    </div>
     <!--{{ content }} -->
     </div><!-- /.article-wrap -->
     {% if site.disqus_shortname and page.comments %}
@@ -78,7 +86,6 @@
     {% endif %}
   </article>
 </div><!-- /#index -->
-
 <div class="footer-wrap">
   <footer>
     {% include _footer.html %}
