@@ -3,6 +3,7 @@
 <!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
 <!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+padding:2px 6px 4px 6px; color: #555555; background-color: #eeeeee; border: #dddddd 3px solid
 <head>
 {% include _head.html %}
 <style>
@@ -12,11 +13,12 @@
   .bottom-small {
      margin-bottom: 1cm;
    }
-  .bos-shadow{
-  border: 1px solid;
-  padding: 10px;
-  box-shadow: 5px 10px #888888;
-}
+  .publication_entry{
+  background-color: #eeeeee;
+  border: #dddddd 3px solid;
+  padding:2px 6px 4px 6px;
+  color: #555555;
+    }
 </style>
 </head>
 
@@ -74,16 +76,15 @@
     <p align="center">&#8226 Je parle un peu <strong>français</strong>.</p>
     <p align="center" class="bottom-three">&#8226 Ich beginne <strong>Deutsch</strong> zu lernen.</p>
     
-    
-    <h2>box-shadow: 5px 10px:</h2>
-    <div id="example1">
-    <p>A div element with a shadow. The first value is the horizontal offset and the second value is the vertical offset.  The shadow color will be inherited from the text color.</p>
-    </div>
+	
     <!--{{ content }} -->
     </div><!-- /.article-wrap -->
     {% if site.disqus_shortname and page.comments %}
       <section id="disqus_thread"></section><!-- /#disqus_thread -->
     {% endif %}
+    %
+    <p align="left" class=publication_entry><img src="/images/publications/3DSmoothNet.jpg" alt="Teaser" width="70" height="70">
+	A div element with a shadow. The first value is the horizontal offset and the second value is the vertical offset.  The shadow color will be inherited from the text color.</p>
   </article>
 </div><!-- /#index -->
 <div class="footer-wrap">
