@@ -19,6 +19,19 @@
   color: #555555;
     }
    .title_font{ color: #7c795d; font-family: 'Trocchi', serif; font-size: 19px; font-weight: bold; line-height: 22px; margin: 0;}
+   
+   .img-wrap{
+   float:left;
+   width:20%;
+   margin-right:2%;
+   }
+   .desc{
+   float:right;
+   width:75%;
+   
+   .clear{
+   clear:both;
+   }
 </style>
 </head>
 
@@ -83,9 +96,16 @@
       <section id="disqus_thread"></section><!-- /#disqus_thread -->
     {% endif %}
     %
-    <div class=publication_entry><img src="/images/publications/3DSmoothNet.jpg" alt="Teaser" width="250" height="150" style="border:3px solid #AAAAAA">
-	<p class="title_font">3DSmoothNet: Matching 3D point clouds with smoothed densities</p>
+    <div class="publication_entry">
+	<div class="img-wrap>
+		<img src="/images/publications/3DSmoothNet.jpg" alt="Teaser" width="200" height="150" style="border:3px solid #AAAAAA">
 	</div>
+	<div class="desc">
+	<p class="title_font"> 3DSmoothNet: Matching 3D point clouds with smoothed densities</p>
+	</div>
+		<div class="clear"></div>
+	</div>
+	
   </article>
 </div><!-- /#index -->
 <div class="footer-wrap">
