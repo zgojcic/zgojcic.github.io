@@ -3,7 +3,7 @@ layout: cv
 permalink: /cv/
 title: My CV
 tags: [about]
-modified: 8-7-2014
+modified: 25-11-2019
 comments: false
 ---
 
