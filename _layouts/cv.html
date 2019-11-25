@@ -20,24 +20,6 @@
   max-width:100%;
   max-height:100%;
 }
-.img{
-  width:auto;
-  height:auto;
-  max-width:100%;
-  max-height:100%;
-  border= 3px solid black;
-}
-.img-wrap{
-  float:left;
-  width:30%;
-  margin-right:2%;
-}
-
-.img-wrap-test{
-  align:left;
-  margin-right:2%;
-}
-
 .desc{
   float:right;
   width:67%;
@@ -125,10 +107,10 @@
     {% endif %}
 	
 	<div class="publication_entry">
-	<img src="/images/publications/3DSmoothNet.jpg" width="250px" height="100px" alt="Teaser" align=left style="margin:0px 10px 0px 0px">
+	<img src="/images/publications/3DSmoothNet.jpg" width="250px" height="100px" alt="Teaser" align="left" border= "3px solid gray" style="margin:0px 10px 0px 0px">
 	<p class="title_font"> The Perfect Match: 3D Point Cloud Matching with Smoothed Densities</p>
 	<p class="authors_font"> Zan Gojcic, <a href="https://gseg.igp.ethz.ch/people/scientific-assistance/caifa-zhou.html" target="_blank">Caifa Zhou,</a> <a href="https://igp.ethz.ch/personen/person-detail.html?persid=186562" target="_blank"> Jan D. Wegner</a>, <a href="https://gseg.igp.ethz.ch/people/group-head/prof-dr--andreas-wieser.html" target="_blank"> Andreas Wieser</a></p>
-	<p class="authors_font"> IEEE Computer Vision and Pattern Recognition (CVPR), 2019 
+	<p class="authors_font"> IEEE Computer Vision and Pattern Recognition (CVPR), 2019 </p>
 	<p class="body_font"> We propose 3DSmoothNet, a full workflow to match 3D point clouds with a siamese deep learning architecture and fully convolutional layers using a voxelized smoothed density value (SDV) representation. The latter is computed per interest point and aligned to the local reference frame (LRF) to achieve rotation invariance. Our compact, learned, rotation invariant 3D point cloud descriptor achieves 94.9% average recall on the 3DMatch benchmark data set, outperforming the state-of-the-art by more than 20 percent points with only 32 output dimensions. This very low output dimension allows for near realtime correspondence search with 0.1 ms per feature point on a standard PC. Our approach is sensor- and sceneagnostic because of SDV, LRF and learning highly descriptive features with fully convolutional layers. We show that 3DSmoothNet trained only on RGB-D indoor scenes of buildings achieves 79.0% average recall on laser scans of outdoor vegetation, more than double the performance of our closest, learning-based competitors. </p>
 	</div>
   </article>
