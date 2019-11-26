@@ -1,0 +1,14 @@
+I"¥	<p>This is my customary update of percentage of <i>deep-learning papers</i> in the major vision conferences. At CVPR 2015, I described its <a href="http://localhost:4000/deep-learning-scraping/">exponential growth</a>, and after ICCV 2015 I wondered whether it had <a href="http://localhost:4000/deep-learning-plateau/">plateaued</a>.<br />
+<br />
+<del>Since the CVF has not released the papers yet, I had to adapt my script to take the titles from the program.</del>
+[UPDATE] CVF papers are online, so we can use the generic script shown below.<br />
+<br />
+You can download all titles in TXT format in <a href="https://www.dropbox.com/sh/nhsric6bksopot3/AADz3BWN6I8i1VsDNLOpvdDAa?dl=0">here</a> if you want to play around. Here the evolution of the results:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">CVPR2013</span><span class="p">:</span>  <span class="mf">0.85</span><span class="o">%</span> <span class="p">(</span>  <span class="mi">4</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">471</span><span class="p">)</span>
+<span class="n">ICCV2013</span><span class="p">:</span>  <span class="mf">1.54</span><span class="o">%</span> <span class="p">(</span>  <span class="mi">7</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">455</span><span class="p">)</span>
+<span class="n">CVPR2014</span><span class="p">:</span>  <span class="mf">3.70</span><span class="o">%</span> <span class="p">(</span> <span class="mi">20</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">540</span><span class="p">)</span>
+<span class="n">CVPR2015</span><span class="p">:</span> <span class="mf">14.45</span><span class="o">%</span> <span class="p">(</span> <span class="mi">87</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">602</span><span class="p">)</span>
+<span class="n">ICCV2015</span><span class="p">:</span> <span class="mf">14.45</span><span class="o">%</span> <span class="p">(</span> <span class="mi">76</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">526</span><span class="p">)</span>
+<span class="n">CVPR2016</span><span class="p">:</span> <span class="mf">23.48</span><span class="o">%</span> <span class="p">(</span><span class="mi">151</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">643</span><span class="p">)</span></code></pre></figure>
+:ET

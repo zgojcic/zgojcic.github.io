@@ -1,0 +1,3 @@
+I"‰<p>In part I of this post, I described how to detect and locate a Sudoku grid in the image, and then finding all the grid locations where the numbers and gaps are.
+This post is therefore about recognizing the numbers and gaps, solving the Sudoku (i.e. finding the numbers that should go in each gap), and finally project the solved numbers in the image gaps (aka augmented-reality style).</p>
+:ET

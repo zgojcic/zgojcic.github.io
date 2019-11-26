@@ -1,0 +1,50 @@
+I"�<p>It all started when my father taught me some notions of Visual Basic, and with the priceless help of the code completion tool (yeah, no Google at that time). Since then, I’ve been enjoying coding and here you can find some of the programs I’ve written.</p>
+
+<h3 id="research">Research</h3>
+
+<ul>
+  <li>
+    <p><a href="http://www.vision.ee.ethz.ch/~cvlsegmentation/cob/"><strong>Convolutional Oriented Boundaries</strong></a><br />
+State of the art in contour detection, hierarchical segmentation, and object proposals. Runs in 700 miliseconds on a GPU and a single CPU thread, thanks to a novel sparse representation of the segmentation results. From our ECCV 2016 paper.</p>
+  </li>
+  <li>
+    <p><a href="http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/mcg/"><strong>Multiscale Combinatorial Grouping</strong></a><br />
+Method for producing segmented object proposals, state of the art pre deep learning. Given an image, it computes around 5000 proposals of segmented objects in less than 30 seconds on a single thread. From our CVPR 2014 and TPAMI 2016 papers.</p>
+  </li>
+  <li>
+    <p><a href="http://www.vision.ee.ethz.ch/~biwiproposals/seism/index.html"><strong>SEISM: Supervised Evaluation of Image Segmentation Methods</strong></a><br />
+Toolbox to benchmark image segmentation methods, including our newly-proposed objects and parts measure. From our PAMI 2015 and CVPR 2013 papers.</p>
+  </li>
+  <li>
+    <p><a href="https://imatge.upc.edu/web/resources/supervised-assessment-segmentation-hierarchies"><strong>Supervised Assessment of Segmentation Hierarchies</strong></a><br />
+Toolbox to find the best cuts in a hierarchy of regions using combinatorial optimization and solved by CPLEX. From our ECCV 2012 paper.</p>
+  </li>
+</ul>
+
+<h3 id="didactical">Didactical</h3>
+
+<ul>
+  <li>
+    <p><a href="http://jponttuset.github.io/solving-sudokus-like-a-pro-1/"><strong>Solving Sudokus like a Pro</strong></a><br />
+Code to capture a camera feed, locate a Sudoku grid, find and recognize the numbers, solve it in real time, and overlay the results.</p>
+  </li>
+  <li>
+    <p><a href="http://jponttuset.github.io/deep-learning-scraping/"><strong>Web Scraping</strong></a><br />
+Demo to answer whether deep learning is indeed in fashion in computer vision. The code scrapes the paper titles of latest vision conferences from the web and computes the percentage of <em>deep-learning-related</em> papers.</p>
+  </li>
+</ul>
+
+<h3 id="web">Web</h3>
+
+<ul>
+  <li>
+    <p><a href="http://www.vision.ee.ethz.ch/~biwiproposals/boosting-coco/"><strong>Boosting Object Proposals: From Pascal to COCO</strong></a><br />
+Webpage to showcase the results of our publication. It involved a decent amount of JavaScript, D3.js, PHP, and MySQL.</p>
+  </li>
+  <li>
+    <p><a href="https://graphics.ethz.ch/~perazzif/davis/index.html"><strong>DAVIS Dataset</strong></a><br />
+Webpage to showcase the benchmark results of DAVIS and browse results. Again: JavaScript, D3.js, PHP, and MySQL.</p>
+  </li>
+</ul>
+
+:ET

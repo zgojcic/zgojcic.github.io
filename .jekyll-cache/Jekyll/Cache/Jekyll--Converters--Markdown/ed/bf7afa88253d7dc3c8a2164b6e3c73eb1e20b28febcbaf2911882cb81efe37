@@ -1,0 +1,90 @@
+I"* <p>So if you’re into computer vision, you are likely dealing with some <a href="http://localhost:4000/deep-learning-takes-over-again/">deep-learning flavoured techniques</a>. This means that you are possibly struggling to compile and run some code written in <a href="http://caffe.berkeleyvision.org">Caffe</a>. This post lists some of the problems I found in compiling MatCaffe on Mac.
+I particular, I am using Matlab R2012b on a Macbook Pro running Mac OS X El Capitan.<br />
+<br />
+First, I followed the <a href="http://caffe.berkeleyvision.org/install_osx.html">official installation guide</a> strictly: I installed <a href="https://developer.nvidia.com/cuda-toolkit">CUDA 7.5</a>, and installed all dependencies (no Anaconda Python) using <a href="http://brew.sh">HomeBrew</a>:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">brew <span class="nb">install</span> <span class="nt">-vd</span> snappy leveldb gflags glog szip lmdb
+<span class="c"># need the homebrew science source for OpenCV and hdf5</span>
+brew tap homebrew/science
+brew <span class="nb">install </span>hdf5 opencv</code></pre></figure>
+
+<p>No problem here, so I moved to <a href="http://caffe.berkeleyvision.org/installation.html#compilation">compilation</a>. Let’s start by <code class="highlighter-rouge">make all -j8</code>.
+Here I found the following problems:</p>
+
+<h4 id="1---missing-protobuf">1 - Missing Protobuf</h4>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>make all
+protoc <span class="nt">--proto_path</span><span class="o">=</span>src <span class="nt">--cpp_out</span><span class="o">=</span>build/src src/caffe/proto/caffe.proto
+make: protoc: No such file or directory
+make: <span class="k">***</span> <span class="o">[</span>build/src/caffe/proto/caffe.pb.cc] Error 1</code></pre></figure>
+
+<p>Solution, install it.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">brew <span class="nb">install </span>protobuf</code></pre></figure>
+
+<h4 id="2---missing-blas-library">2 - Missing BLAS library</h4>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">fatal error: <span class="s1">'cblas.h'</span> file not found
+<span class="c">#include &lt;cblas.h&gt;</span>
+1 error generated.
+make: <span class="k">***</span> <span class="o">[</span>build/src/caffe/blob.o] Error 1</code></pre></figure>
+
+<p>Solution, install it:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">brew <span class="nb">install </span>homebrew/science/openblas</code></pre></figure>
+
+<p>And do the following changes in <code class="highlighter-rouge">Makefile.config</code>:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">BLAS :<span class="o">=</span> open
+BLAS_INCLUDE :<span class="o">=</span> <span class="si">$(</span>shell brew <span class="nt">--prefix</span> openblas<span class="si">)</span>/include
+BLAS_LIB :<span class="o">=</span> <span class="si">$(</span>shell brew <span class="nt">--prefix</span> openblas<span class="si">)</span>/lib
+INCLUDE_DIRS +<span class="o">=</span> <span class="si">$(</span>shell brew <span class="nt">--prefix</span><span class="si">)</span>/include
+LIBRARY_DIRS +<span class="o">=</span> <span class="si">$(</span>shell brew <span class="nt">--prefix</span><span class="si">)</span>/lib</code></pre></figure>
+
+<p>With this I could build <code class="highlighter-rouge">make all</code> and <code class="highlighter-rouge">make test</code>, but I found the following problem when running <code class="highlighter-rouge">make runtest</code>:</p>
+
+<h4 id="3---cuda-not-found">3 - CUDA not found</h4>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dyld: Library not loaded: @rpath/libcudart.7.5.dylib
+Reason: image not found 
+make: <span class="k">***</span> <span class="o">[</span>runtest] Trace/BPT <span class="nb">trap</span>: 5</code></pre></figure>
+
+<p>Solution, set the environment variable:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">DYLD_FALLBACK_LIBRARY_PATH</span><span class="o">=</span>/usr/local/cuda/lib/</code></pre></figure>
+
+<p>So, next was to build MatCaffe <code class="highlighter-rouge">make matcaffe</code>, for which I had to change:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">MATLAB_DIR :<span class="o">=</span> /Applications/MATLAB_R2012b.app/</code></pre></figure>
+
+<p>But when running a test from Matlab I encountered the following problem (even if I had set the correct <code class="highlighter-rouge">DYLD_FALLBACK_LIBRARY_PATH</code>).</p>
+
+<h4 id="4---cuda-not-found-from-matlab">4 - CUDA not found from Matlab</h4>
+
+<figure class="highlight"><pre><code class="language-matlab" data-lang="matlab"><span class="n">Invalid</span> <span class="n">MEX</span><span class="o">-</span><span class="n">file</span> <span class="s1">'matlab/+caffe/private/caffe_.mexmaci64'</span><span class="p">:</span>
+<span class="n">dlopen</span><span class="p">(</span><span class="nb">matlab</span><span class="p">/</span><span class="o">+</span><span class="n">caffe</span><span class="p">/</span><span class="n">private</span><span class="p">/</span><span class="n">caffe_</span><span class="o">.</span><span class="n">mexmaci64</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="n">Library</span> <span class="nb">not</span> <span class="n">loaded</span><span class="p">:</span> <span class="o">@</span><span class="n">rpath</span><span class="p">/</span><span class="n">libcudart</span><span class="o">.</span><span class="mf">7.5</span><span class="o">.</span><span class="n">dylib</span>
+  <span class="n">Referenced</span> <span class="n">from</span><span class="p">:</span> <span class="nb">matlab</span><span class="p">/</span><span class="o">+</span><span class="n">caffe</span><span class="p">/</span><span class="n">private</span><span class="p">/</span><span class="n">caffe_</span><span class="o">.</span><span class="n">mexmaci64</span>
+  <span class="n">Reason</span><span class="p">:</span> <span class="nb">image</span> <span class="nb">not</span> <span class="n">found</span></code></pre></figure>
+
+<p>And the solution to this was in two fronts. First, Matlab was taking his own CUDA libraries, so I simply renamed them (not sure this affects Matlab in some way…):</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">mv</span> /Applications/MATLAB_R2012b.app/bin/maci64/libcudart.dylib /Applications/MATLAB_R2012b.app/bin/maci64/libcudart.bkp
+<span class="nb">mv</span> /Applications/MATLAB_R2012b.app/bin/maci64/libcublas.dylib /Applications/MATLAB_R2012b.app/bin/maci64/libcublas.bkp</code></pre></figure>
+
+<p>And second, it seems that Mac OS X El Capitan implements some type of protection (<a href="https://developer.apple.com/library/watchos/documentation/Security/Conceptual/System_Integrity_Protection_Guide/System_Integrity_Protection_Guide.pdf">System Integrity Protection</a>) that clears <code class="highlighter-rouge">DYLD_FALLBACK_LIBRARY_PATH</code> when executing Matlab.
+To prevent this, I followed the comment in this <a href="https://github.com/BVLC/caffe/issues/2320">thread</a>:</p>
+
+<ol>
+  <li>Boot to Recovery OS by restarting your machine and holding down the <code class="highlighter-rouge">Command</code> + <code class="highlighter-rouge">R</code> keys at startup.</li>
+  <li>Launch <code class="highlighter-rouge">Terminal</code> from the <code class="highlighter-rouge">Utilities</code> menu.</li>
+  <li>Enter the following command: <code class="highlighter-rouge">csrutil disable</code></li>
+  <li>Restart</li>
+</ol>
+
+<p>Please note that you need to run Matlab from a command line with the correct value for <code class="highlighter-rouge">DYLD_FALLBACK_LIBRARY_PATH</code> by doing:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">/Applications/MATLAB_R2012b.app/bin/matlab &amp;</code></pre></figure>
+
+<p>And with this it worked! Enjoy and comment if this helped you. :)</p>
+
+:ET

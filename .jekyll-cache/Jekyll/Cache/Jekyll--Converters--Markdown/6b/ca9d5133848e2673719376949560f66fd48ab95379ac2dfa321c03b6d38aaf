@@ -1,0 +1,3 @@
+I"�<p><a href="http://www.ibm.com/developerworks/downloads/ws/ilogcplex/">CPLEX</a> is a pretty awesome optimization toolbox from IBM, and it is free for academic use. It can be called from C++ (apart from Matlab, Python, etc.), but it’s not the easiest library to compile…
+You will encounter some problems for instance if your code has some C++11 functionalities from the C++ standard library.</p>
+:ET

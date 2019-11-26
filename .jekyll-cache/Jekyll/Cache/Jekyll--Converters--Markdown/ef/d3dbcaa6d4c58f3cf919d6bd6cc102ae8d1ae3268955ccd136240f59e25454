@@ -1,0 +1,5 @@
+I"<p>So if you’re into computer vision, you are likely dealing with some <a href="http://localhost:4000/deep-learning-takes-over-again/">deep-learning flavoured techniques</a>. This means that you are possibly struggling to compile and run some code written in <a href="http://caffe.berkeleyvision.org">Caffe</a>. This post lists some of the problems I found in compiling MatCaffe on Mac.
+I particular, I am using Matlab R2012b on a Macbook Pro running Mac OS X El Capitan.<br />
+<br />
+First, I followed the <a href="http://caffe.berkeleyvision.org/install_osx.html">official installation guide</a> strictly: I installed <a href="https://developer.nvidia.com/cuda-toolkit">CUDA 7.5</a>, and installed all dependencies (no Anaconda Python) using <a href="http://brew.sh">HomeBrew</a>:</p>
+:ET

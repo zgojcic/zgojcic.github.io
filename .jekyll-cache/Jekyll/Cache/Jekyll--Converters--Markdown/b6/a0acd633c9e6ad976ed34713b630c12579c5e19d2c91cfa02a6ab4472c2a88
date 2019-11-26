@@ -1,0 +1,10 @@
+I"+<p>It’s that time of the year when a major vision conference <a href="http://openaccess.thecvf.com/CVPR2018.py">releases the papers to the public</a>, so it’s time to check how deep learning is doing in their titles.<br />
+<br />
+At ICCV 2017, we realized that <a href="http://localhost:4000/gans-et-al-growing-strong/">GANs were growing strong</a>, and before we did a set <a href="http://localhost:4000/dl-lstm-gan-evolution">of</a> <a href="http://localhost:4000/deep-learning-scraping/">posts</a> of <a href="http://localhost:4000/deep-learning-plateau/">the</a> <a href="http://localhost:4000/deep-learning-takes-over-again/">deep learning</a> <a href="http://localhost:4000/deep-learning-evolution/">saga</a>.<br />
+<br />
+Let’s update the plots to CVPR 2018, as always, using the XKCD style, as described in this <a href="http://localhost:4000/xkcd-deep-learning/">blog post</a>, but this time putting all trends together:
+<br />
+<img align="middle" width="500" src="http://localhost:4000/images/deep_vs_gan_evolution.png" alt="..." />
+<br />
+<br /></p>
+:ET

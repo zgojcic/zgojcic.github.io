@@ -1,0 +1,13 @@
+I"�<p>It is quite obvious that so-called deep learning is in fashion, especially in some fields of computer vision. In this post we would like to quantitatively evaluate whether this assertion is indeed true, and learn to do web scraping on the way.
+<br />
+<br />
+<a href="http://en.wikipedia.org/wiki/Web_scraping">Web Scraping</a> consist in extracting useful information from websites by a computer program. In this post I’ll show a very basic example of web scraping written in Python in order to get the titles of the Computer Vision papers available in the open access repository of <a href="http://www.cv-foundation.org/openaccess/menu.py">CVF</a>. We will then count the number of title with <em>deep-learning-related</em> words in them.
+<br />
+<br />
+Maybe web scraping is an overkill for this example, but it might come in handy for other applications.
+First you’ll need to install these dependencies: <a href="http://lxml.de">lxml</a>, 
+<a href="http://docs.python-requests.org">Python requests</a>, and for more advanced examples <a href="http://www.crummy.com/software/BeautifulSoup/">Beautiful soup</a>.
+<br />
+<br />
+And here the code:</p>
+:ET

@@ -1,0 +1,20 @@
+I"�<p>Up until Matlab 2013b, one could modify the C/C++ mex compilation flags by editing the <code class="highlighter-rouge">mexopts.sh</code> file, usually found in <code class="highlighter-rouge">~/.matlab/mexopts.sh</code>. A common example nowadays is adding the <code class="highlighter-rouge">-std=c++11</code> option to compile C++ code from the C++11 standard (<a href="http://www.codeproject.com/Articles/570638/Ten-Cplusplus-Features-Every-Cplusplus-Developer">which has some awesome features</a>). To do that in Matlab 2013 and below, you would simply add the flag to the CXXFLAGS variable.</p>
+
+<p><br />
+In Matlab 2014, however, things got a little bit more complicated than that. Googling a little I found that now the options were stored in XML files called something like <code class="highlighter-rouge">mex_C_glnxa64.xml</code> or <code class="highlighter-rouge">mex_C++_glnxa64.xml</code>, but these were nowhere to be found in my system, until I finally realized you have to call <code class="highlighter-rouge">mex setup</code> before to create them.</p>
+
+<p><br />
+The final steps are as follow:</p>
+
+<ul>
+  <li>Run <code class="highlighter-rouge">mex -setup C++</code> or <code class="highlighter-rouge">mex -setup C</code>, depending on which language you are gonna compile. This will create the corresponding XML file.</li>
+  <li>Open the file <code class="highlighter-rouge">~/.matlab/mex_C++_glnxa64.xml</code> or  <code class="highlighter-rouge">~/.matlab/mex_C_glnxa64.xml</code>. In some versions of Matlab it’s in <code class="highlighter-rouge">~/.matlab/R2014a/mex_C++_glnxa64.xml</code>.</li>
+  <li>Edit the CXXFLAGS line to something like: <code class="highlighter-rouge">CXXFLAGS="-ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -std=c++11"</code></li>
+</ul>
+
+<p>And you’re good to go!</p>
+
+<p><br />
+You might also need to change the compiler used to a non-default one. You can do so by calling mex with <code class="highlighter-rouge">mex GCC='/path/to/bin/g++' you_file.cpp</code>.</p>
+
+:ET

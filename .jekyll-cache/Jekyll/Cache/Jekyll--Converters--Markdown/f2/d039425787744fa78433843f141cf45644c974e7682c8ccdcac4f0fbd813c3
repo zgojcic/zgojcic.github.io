@@ -1,0 +1,50 @@
+I"X<p><a href="mscoco.org">Microsoft COCO</a> is a recent annotated database for object detection, segmentation, tagging, etc. It’s one order of magnitude larger than previous similar databases available. Here a comparison of sizes:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Database</th>
+      <th style="text-align: right"># classes</th>
+      <th style="text-align: right"># Images</th>
+      <th style="text-align: right"># Objects</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">SegVOC12</td>
+      <td style="text-align: right">20</td>
+      <td style="text-align: right">2.913</td>
+      <td style="text-align: right">9.847</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">SBD</td>
+      <td style="text-align: right">20</td>
+      <td style="text-align: right">12.031</td>
+      <td style="text-align: right">32.172</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">MS COCO</td>
+      <td style="text-align: right">80</td>
+      <td style="text-align: right">123.287</td>
+      <td style="text-align: right">910.983</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>So when working with COCO, it’s typical to end up having to handle the 123.287 files of results. At some point you may want to move some of them, for instance, those that have a certain pattern in the name, such as <em>val2014</em>.</p>
+
+<p><br />
+In a Linux environment and with <em>mat</em> files as results, you would typically do something like:</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">mv *val2014*.mat destination</code></pre></figure>
+
+<p>This worked flawlessly in Pascal, but in COCO you will get something like:</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">Argument list too long</code></pre></figure>
+
+<p>What’s the problem? The number of elements that the shell can handle in the arguments is limited, and we may be trying to move a larger number of files. Luckily, we can find a workaround by using <code class="highlighter-rouge">xargs</code>:</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">ls | grep  val2014 | xargs mv -t destination</code></pre></figure>
+
+<p>The <code class="highlighter-rouge">ls</code> command lists all files and <code class="highlighter-rouge">grep</code> filters the ones we want to move. Then, the list passes to <code class="highlighter-rouge">xargs</code>, which executes the <code class="highlighter-rouge">mv</code> command once per member of the list. The <code class="highlighter-rouge">-t</code> option (Note that the <code class="highlighter-rouge">-t</code> option works only on GNU systems) allows to exchange the order of the parameters of <code class="highlighter-rouge">mv</code>. More info <a href="http://unix.stackexchange.com/questions/128559/solving-mv-argument-list-too-long">here</a>.</p>
+:ET

@@ -1,0 +1,335 @@
+I"�<p>In part I of this post, I described how to detect and locate a Sudoku grid in the image, and then finding all the grid locations where the numbers and gaps are.
+This post is therefore about recognizing the numbers and gaps, solving the Sudoku (i.e. finding the numbers that should go in each gap), and finally project the solved numbers in the image gaps (aka augmented-reality style).</p>
+
+<p><br />
+You can download the full code from <a href="https://github.com/jponttuset/sudoku">GitHub</a>, here I’ll just highlight the main parts to understand the algorithm. Please note that the proposed algorithm is not the optimal in a lot of senses, since it’s been designed as an academic tutorial that one can understand without a lot of knowledge about computer vision. This has left out some powerful but more advanced techniques.</p>
+
+<h4 id="1-digit-and-gap-recognition">1. Digit and gap recognition</h4>
+<p>Now that we have located the grid in the image and all its spots, let’s isolate every sub-image containing the digits to scan them using an OCR.
+First of all, we isolate and crop the whole image of the Sudoku Grid.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/* Get the image of the Sudoku full box
+ * by getting the first and last grids 
+ *  - ulx: Up Left X
+ *  - uly: Up Left Y
+ *  - drx: Down Right X
+ *  - dry: Down Right Y     */</span>
+<span class="n">unsigned</span> <span class="n">int</span> <span class="n">ulx</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">corners</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="nf">x</span><span class="p">,</span><span class="n">corners</span><span class="p">[</span><span class="mi">9</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="nf">x</span><span class="p">));</span>
+<span class="n">unsigned</span> <span class="n">int</span> <span class="n">uly</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">corners</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="nf">y</span><span class="p">,</span><span class="n">corners</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">9</span><span class="p">].</span><span class="nf">y</span><span class="p">));</span>
+                                
+<span class="n">unsigned</span> <span class="n">int</span> <span class="n">drx</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">corners</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">9</span><span class="p">].</span><span class="nf">x</span><span class="p">,</span><span class="n">corners</span><span class="p">[</span><span class="mi">9</span><span class="p">][</span><span class="mi">9</span><span class="p">].</span><span class="nf">x</span><span class="p">));</span>
+<span class="n">unsigned</span> <span class="n">int</span> <span class="n">dry</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">corners</span><span class="p">[</span><span class="mi">9</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="nf">y</span><span class="p">,</span><span class="n">corners</span><span class="p">[</span><span class="mi">9</span><span class="p">][</span><span class="mi">9</span><span class="p">].</span><span class="nf">y</span><span class="p">));</span>
+
+<span class="sr">/* This is to be robust against some degenerate cases */</span>
+<span class="k">if</span><span class="p">(</span><span class="n">ulx</span><span class="o">&gt;</span><span class="n">sx</span> <span class="n">or</span> <span class="n">uly</span><span class="o">&gt;</span><span class="n">sy</span> <span class="n">or</span> <span class="n">drx</span><span class="o">&gt;</span><span class="n">sx</span> <span class="n">or</span> <span class="n">dry</span><span class="o">&gt;</span><span class="n">sy</span><span class="p">)</span> 
+    <span class="n">continue</span><span class="p">;</span>
+	
+<span class="sr">/* Crop the image */</span>
+<span class="no">Mat</span> <span class="n">sudoku_box</span><span class="p">(</span><span class="n">frame_gray</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="no">Rect</span><span class="p">(</span><span class="n">ulx</span><span class="p">,</span> <span class="n">uly</span><span class="p">,</span> <span class="n">drx</span><span class="o">-</span><span class="n">ulx</span><span class="p">,</span> <span class="n">dry</span><span class="o">-</span><span class="n">uly</span><span class="p">));</span></code></pre></figure>
+
+<p>Here how an original frame looks like in practice:</p>
+
+<p><br />
+<img src="http://localhost:4000/images/Sudoku/Frame.png" alt="Frame" /></p>
+
+<p><br />
+And here the automatically cropped image showing the Sudoku grid:</p>
+
+<p><br />
+<img src="http://localhost:4000/images/Sudoku/SudokuBox.png" alt="Frame" /></p>
+
+<p><br />
+We now proced to binarize the image using local thresholding, which is robust to local shadings. We could apply the OCR directly to this image and let it decide the binarization, but we found that binarizing the image ourselves worked better.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/* Apply local thresholding */</span>
+<span class="no">Mat</span> <span class="n">sudoku_th</span> <span class="o">=</span> <span class="n">sudoku_box</span><span class="p">.</span><span class="nf">clone</span><span class="p">();</span>
+<span class="n">adaptiveThreshold</span><span class="p">(</span><span class="n">sudoku_box</span><span class="p">,</span> <span class="n">sudoku_th</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span>
+                               <span class="no">CV_ADAPTIVE_THRESH_GAUSSIAN_C</span><span class="p">,</span>
+                               <span class="no">CV_THRESH_BINARY_INV</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span></code></pre></figure>
+
+<p>Here the grid after binarization:</p>
+
+<p><br />
+<img src="http://localhost:4000/images/Sudoku/SudokuTh.png" alt="Frame" /></p>
+
+<p><br />
+As we can see, the grid is not perfectly aligned. That’s why we reduced the size of the small boxes in previous steps. We can now cut the thresholded image on each of the small boxes detected in the previous post and here we have some results:</p>
+
+<p><br />
+<img src="http://localhost:4000/images/Sudoku/BoxesTh.png" alt="Frame" /></p>
+
+<p><br />
+Now that we have the binarized sub-images of the grid, let’s run the OCR on them.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/* Process all boxes and classify whether
+ *  - They are empty (we'll say 0) or
+ *  - There is a number 1-9        */</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">unsigned</span> <span class="n">int</span><span class="o">&gt;&gt;</span> <span class="n">rec_digits</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">unsigned</span> <span class="n">int</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">9</span><span class="p">));</span>
+<span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">ii</span><span class="o">&lt;</span><span class="mi">9</span><span class="p">;</span> <span class="o">++</span><span class="n">ii</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">jj</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">jj</span><span class="o">&lt;</span><span class="mi">9</span><span class="p">;</span> <span class="o">++</span><span class="n">jj</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="sr">/* Get the square as an image */</span>
+        <span class="no">Mat</span> <span class="n">digit_box</span><span class="p">(</span><span class="n">sudoku_th</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="no">Rect</span><span class="p">(</span>
+                <span class="n">round</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">].</span><span class="nf">first</span><span class="p">.</span><span class="nf">x</span><span class="p">)</span><span class="o">-</span><span class="n">ulx</span><span class="p">,</span>
+                <span class="n">round</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">].</span><span class="nf">first</span><span class="p">.</span><span class="nf">y</span><span class="p">)</span><span class="o">-</span><span class="n">uly</span><span class="p">,</span>
+                <span class="n">round</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">].</span><span class="nf">second</span><span class="p">.</span><span class="nf">x</span><span class="o">-</span><span class="n">boxes</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">].</span><span class="nf">first</span><span class="p">.</span><span class="nf">x</span><span class="p">),</span>
+                <span class="n">round</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">].</span><span class="nf">second</span><span class="p">.</span><span class="nf">y</span><span class="o">-</span><span class="n">boxes</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">].</span><span class="nf">first</span><span class="p">.</span><span class="nf">y</span><span class="p">)));</span>
+                                       
+        <span class="sr">/* Recognize the digit using an OCR */</span>
+        <span class="n">rec_digits</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">recognize_digit</span><span class="p">(</span><span class="n">digit_box</span><span class="p">,</span> <span class="n">tess</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="sr">/* Function to recognize a digit in a binarized image using Tesseract 
+ *  Note that we should limit Tesseract to look for digits only,
+ *  but I didn't manage to do it from the C++ API... :)
+ *  That's why we need to handle the 'I' as a '1', er similar...
+ */</span>
+<span class="n">unsigned</span> <span class="n">int</span> <span class="n">recognize_digit</span><span class="p">(</span><span class="no">Mat</span><span class="o">&amp;</span> <span class="n">im</span><span class="p">,</span> <span class="n">tesseract</span><span class="o">::</span><span class="no">TessBaseAPI</span><span class="o">&amp;</span> <span class="n">tess</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">tess</span><span class="o">.</span><span class="no">SetImage</span><span class="p">((</span><span class="n">uchar</span><span class="o">*</span><span class="p">)</span><span class="n">im</span><span class="p">.</span><span class="nf">data</span><span class="p">,</span> <span class="n">im</span><span class="p">.</span><span class="nf">size</span><span class="p">().</span><span class="nf">width</span><span class="p">,</span> <span class="n">im</span><span class="p">.</span><span class="nf">size</span><span class="p">().</span><span class="nf">height</span><span class="p">,</span>
+                              <span class="n">im</span><span class="p">.</span><span class="nf">channels</span><span class="p">(),</span> <span class="p">(</span><span class="n">int</span><span class="p">)</span><span class="n">im</span><span class="p">.</span><span class="nf">step1</span><span class="p">());</span>
+    <span class="n">tess</span><span class="o">.</span><span class="no">Recognize</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="n">const</span> <span class="n">char</span><span class="o">*</span> <span class="n">out</span> <span class="o">=</span> <span class="n">tess</span><span class="o">.</span><span class="no">GetUTF8Text</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'1'</span> <span class="n">or</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'I'</span> <span class="n">or</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'i'</span> <span class="n">or</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'/'</span>
+                        <span class="n">or</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'|'</span> <span class="n">or</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'l'</span> <span class="n">or</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'t'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'2'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'3'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">3</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'4'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">4</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'5'</span> <span class="n">or</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'S'</span> <span class="n">or</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'s'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">5</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'6'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">6</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'7'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">7</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'8'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">8</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s1">'9'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">9</span><span class="p">;</span>
+        <span class="k">else</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Here the results of the recognition of the numbers present in the image.</p>
+
+<p><br />
+<img src="http://localhost:4000/images/Sudoku/SudokuNumbers.png" alt="Frame" /></p>
+
+<h4 id="2-solving-the-sudoku">2. Solving the Sudoku</h4>
+<p>We now have all available digits recognized and we also now where the gaps are, so the next step is to solve the Sudoku.
+To do so, we create a class Sudoku, that mainly contains all the possible digits that are still possible at each grid location and a set of constraints that define the rules of Sudoku (there cannot be repeated numbers in a row, column, etc.).</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/* Class that contains and solves the Sudoku of N*N*N
+ *  grid 'spaces', i.e., the usual Sudoku is N=3 */</span>
+<span class="n">template</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="no">N</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">Sudoku</span>
+<span class="p">{</span>
+    <span class="sr">/* Set of constraints container */</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="no">Constraint</span><span class="o">&gt;</span> <span class="n">constraints</span><span class="p">;</span>
+    
+    <span class="sr">/* Container of all possible numbers at each grid position */</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">char</span><span class="o">&gt;&gt;&gt;</span> <span class="n">grid</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The first step is therefore to ingest all recognized digits into the Sudoku class, and then call to the solve function.
+The global call to the code would therefore be:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/* Create the Sudoku class */</span>
+<span class="n">const</span> <span class="n">int</span> <span class="no">N</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="no">Sudoku</span><span class="o">&lt;</span><span class="no">N</span><span class="o">&gt;</span> <span class="n">sudoku</span><span class="p">;</span>
+                                    
+<span class="sr">/* Set the recognized digits */</span>
+<span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">ii</span><span class="o">&lt;</span><span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="p">;</span> <span class="o">++</span><span class="n">ii</span><span class="p">)</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">jj</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">jj</span><span class="o">&lt;</span><span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="p">;</span> <span class="o">++</span><span class="n">jj</span><span class="p">)</span>
+        <span class="n">sudoku</span><span class="p">.</span><span class="nf">set_value</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">,</span> <span class="n">rec_digits</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]);</span>
+
+<span class="sr">/* Let's try to solve it */</span>
+<span class="k">if</span><span class="p">(</span><span class="n">sudoku</span><span class="p">.</span><span class="nf">solve</span><span class="p">())</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">"We solved it!"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">set_value()</code> function reduces the possible values of that location to only one value, so that grid location is <em>solved</em>.
+We will know that a Sudoku is solved, therefore, when all locations have only a single possible value, as the code below checks.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/* Function to check whether the Sudoku is solved,
+ * i.e., whether there is only one option left at all positions */</span>
+<span class="n">bool</span> <span class="n">is_solved</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">bool</span> <span class="n">is_sol</span> <span class="o">=</span> <span class="kp">true</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">ii</span><span class="o">&lt;</span><span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="p">;</span> <span class="o">++</span><span class="n">ii</span><span class="p">)</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">jj</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">jj</span><span class="o">&lt;</span><span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="p">;</span> <span class="o">++</span><span class="n">jj</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">container</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">].</span><span class="nf">size</span><span class="p">()</span><span class="o">!=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">is_sol</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span>
+                <span class="n">ii</span> <span class="o">=</span> <span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="p">;</span>
+                <span class="n">jj</span> <span class="o">=</span> <span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="p">;</span>
+            <span class="p">}</span>
+    <span class="k">return</span> <span class="n">is_sol</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>So, now that we know whether the Sudoku is solved at a given stage, and we have set all the initial recognized digits, we would proceed by scanning all constraints iteratively and removing all solved numbers from the rest of positions possible values. After some iterations, we will be reducing the possible values in each location, until only one possibility remains.
+The global algorithm to solve the Sudoku would therefore be the following.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/* Function to solve the Sudoku, given the current imposed digits */</span>
+<span class="n">bool</span> <span class="n">solve</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">max_iterations</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">n_iters</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">not</span> <span class="n">is_solved</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="sr">/* Scan all constraints */</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">auto</span> <span class="n">constr</span><span class="ss">:constraints</span><span class="p">)</span>
+            <span class="sr">/* We impose that cosntrain, removing solved digits
+             * from the rest of locations in the constraint */</span>
+            <span class="n">constr</span><span class="p">.</span><span class="nf">scan_and_impose</span><span class="p">(</span><span class="n">grid</span><span class="p">);</span>
+        <span class="n">n_iters</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n_iters</span><span class="o">&gt;</span><span class="n">max_iterations</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kp">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kp">true</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This solving strategy is the most basic possible, and will therefore only solve the easy puzzles. In other words, we could keep end up iterating through all constraints without being able to change the possible numbers on each grid.
+We would therefore be left with some positions with more than one possible number.
+<br />
+<br /></p>
+
+<p>A possible way to proceed would be to do <em>branching</em>, that is, to take a location with a few possible numbers and make a guess among them.
+Then try to solve imposing that guess and if we are not able to solve keep trying with another guess.
+Obviously, this branching can also be nested.
+We leave this solution to the reader :).</p>
+
+<h4 id="3-implementing-constraints-using-object-oriented-programming">3. Implementing constraints using Object-Oriented programming</h4>
+<p>Let’s implement the classes to impose the constraints in the Sudoku.
+In generic, a constraint is a set of positions in the Sudoku grid, where there cannot be duplicate digits, for example a row or a column.
+Let’s therefore create a generic class (subclass of Sudoku) that implements the algorithm to enforce this constraint.
+<br />
+<br /></p>
+
+<p>We will then need to particularize the class to three types of constraints: rows, columns, and blocks.
+They will be different only in how we define the coordinates covered by the constraints, but will share the code of how to impose them.
+In Object-Oriented programming, we can implement this idea with a generic <em>parent</em> class that we will then <em>specialize</em> by <em>class inheritance</em> into three new classes.
+<br />
+<br /></p>
+
+<p>Let’s delve into creating the generic parent class that implements a constraint.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/* Generic class that implements a constraint, i.e.,
+ *  a set of positions where there cannot be any repeated number.
+ * We will implement the generic features of a constraint
+ *  (scan all positions and impose no repetitions),
+ *  and then we will specialize this class to the three types of
+ *  constraints in a Sudoku (row, column, and block). This way,
+ *  we don't have to duplicate code (Object-Oriented programming :)
+ */</span>
+<span class="n">struct</span> <span class="no">Constraint</span>
+<span class="p">{</span>
+    <span class="sr">/* Default constructor - Allocate containers 
+     * We get 'N' from the mother class Sudoku   */</span>
+    <span class="no">Constraint</span><span class="p">():</span> <span class="n">row_coords</span><span class="p">(</span><span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="p">),</span> <span class="n">col_coords</span><span class="p">(</span><span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="p">)</span> 
+    <span class="p">{</span>
+    <span class="p">}</span>
+        
+    <span class="sr">/* String identifying the constraint, for debugging purposes */</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="nb">id</span><span class="p">;</span>
+        
+    <span class="sr">/* Coordinates of the constraint, that is, the positions
+     *  where the constraints must be fulfilled */</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span><span class="o">&gt;</span> <span class="n">row_coords</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span><span class="o">&gt;</span> <span class="n">col_coords</span><span class="p">;</span>
+        
+    <span class="sr">/* Scan the constraint, find those positions with only one possible
+     *  value, and erase the value from the rest of sets,
+     *  where it cannot be.
+     * Example: If we find a place where '9' is the only possible
+     *  number, we erase '9' from the list of possibilities in
+     *  the other locations */</span>
+    <span class="n">bool</span> <span class="n">scan_and_impose</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">char</span><span class="o">&gt;&gt;&gt;&amp;</span> <span class="n">contain</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">};</span></code></pre></figure>
+
+<p>As you can see, it’s mainly a list of coordinates and a function to impose this constraint given a specific state of the Sudoku grid (you can see the full implementation in the code).
+Every time we <em>impose</em> this constraint, we will be removing all digits that are <em>solved</em> in a certain position from the rest of locations.
+<br />
+<br /></p>
+
+<p>Now that we have the generic constraint, we need to provide easy ways of filling the coordinates of the constraints, to avoid having to manually define them all.
+We exemplify it, for instance, with the row constraint <code class="highlighter-rouge">RowConstraint</code>.
+We inherit from the generic class <code class="highlighter-rouge">Constraint</code> and we specialize the constructor to take the specific number of row and fill the coordinates accordingly.
+We also initialize the identifier string for debugging.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/* Specialized class for row constraints */</span>
+<span class="n">struct</span> <span class="no">RowConstraint</span><span class="p">:</span> <span class="kp">public</span> <span class="no">Constraint</span>
+<span class="p">{</span>
+    <span class="sr">/* Constructor receiving the particular row */</span>
+    <span class="no">RowConstraint</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">row</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="sr">/* Fill in all the coordinates of the row */</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">ii</span><span class="o">&lt;</span><span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="p">;</span> <span class="o">++</span><span class="n">ii</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">this</span><span class="o">-&gt;</span><span class="n">row_coords</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="p">;</span>
+            <span class="n">this</span><span class="o">-&gt;</span><span class="n">col_coords</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">ii</span><span class="p">;</span>
+        <span class="p">}</span>
+            
+        <span class="sr">/* Set the identifier string */</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">stringstream</span> <span class="n">ss</span><span class="p">;</span>
+        <span class="n">ss</span> <span class="o">&lt;&lt;</span> <span class="n">row</span><span class="p">;</span>
+        <span class="n">this</span><span class="o">-&gt;</span><span class="nb">id</span> <span class="o">=</span> <span class="s2">"Row "</span><span class="o">+</span><span class="n">ss</span><span class="p">.</span><span class="nf">str</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">};</span></code></pre></figure>
+
+<p>Note the use of <code class="highlighter-rouge">this-&gt;</code> to get access to the fields defined in the parent generic class.
+With this class structure, the definition of the full set of constraints is reduced to the following constructor in the <code class="highlighter-rouge">Sudoku</code> class.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/* Default constructor, which:
+ * - Allocates the grid (N*N x N*N, e.g. 9x9)
+ * - Defines the N*N constraints of each type (e.g. 9 columns, etc.)
+ */</span>
+<span class="no">Sudoku</span><span class="p">()</span> <span class="p">:</span> <span class="n">grid</span><span class="p">(</span><span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="p">,</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">char</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">ii</span><span class="o">&lt;</span><span class="no">N</span><span class="o">*</span><span class="no">N</span><span class="p">;</span> <span class="o">++</span><span class="n">ii</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">constraints</span><span class="p">.</span><span class="nf">push_back</span><span class="p">(</span>  <span class="no">ColConstraint</span><span class="p">(</span><span class="n">ii</span><span class="p">));</span>
+        <span class="n">constraints</span><span class="p">.</span><span class="nf">push_back</span><span class="p">(</span>  <span class="no">RowConstraint</span><span class="p">(</span><span class="n">ii</span><span class="p">));</span>
+        <span class="n">constraints</span><span class="p">.</span><span class="nf">push_back</span><span class="p">(</span><span class="no">BlockConstraint</span><span class="p">(</span><span class="n">ii</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<h4 id="4-agumented-reality-result-display">4. Agumented-reality result display</h4>
+<p>Once the Sudoku is solved, the only remaining step is to reproject the solved digits into the gaps of the original Sudoku.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/* Plot the solved numbers in the gaps using augmenting reality */</span>
+<span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">ii</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">ii</span><span class="o">&lt;</span><span class="mi">9</span><span class="p">;</span> <span class="o">++</span><span class="n">ii</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">size_t</span> <span class="n">jj</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">jj</span><span class="o">&lt;</span><span class="mi">9</span><span class="p">;</span> <span class="o">++</span><span class="n">jj</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="sr">/* Paint only the digits in the gaps of original Sudoku */</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">rec_digits</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="no">Point</span> <span class="n">text_pos</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">].</span><span class="nf">first</span><span class="p">.</span><span class="nf">x</span> <span class="o">+</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">].</span><span class="nf">second</span><span class="p">.</span><span class="nf">x</span><span class="o">-</span><span class="n">boxes</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">].</span><span class="nf">first</span><span class="p">.</span><span class="nf">x</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span>
+                           <span class="n">boxes</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">].</span><span class="nf">second</span><span class="p">.</span><span class="nf">y</span><span class="o">-</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">].</span><span class="nf">second</span><span class="p">.</span><span class="nf">y</span><span class="o">-</span><span class="n">boxes</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">].</span><span class="nf">first</span><span class="p">.</span><span class="nf">y</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span><span class="p">);</span>
+            <span class="n">stringstream</span> <span class="n">ss</span><span class="p">;</span>
+            <span class="n">ss</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">int</span><span class="p">)</span><span class="n">processed_sudoku</span><span class="p">.</span><span class="nf">get_value</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">);</span>
+            <span class="n">putText</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">ss</span><span class="p">.</span><span class="nf">str</span><span class="p">(),</span> <span class="n">text_pos</span><span class="p">,</span> 
+                    <span class="no">CV_FONT_HERSHEY_DUPLEX</span><span class="p">,</span> <span class="sr">/*Size*/</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="no">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">),</span> <span class="sr">/*Thickness*/</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>You can find the code from this blog post in <a href="https://github.com/jponttuset/sudoku">GitHub</a>. 
+And here the link to the final result video. If you liked this post or used the code, why don’t you say hi in the comments? :)<br />
+<br /></p>
+
+<p><a href="https://www.youtube.com/watch?v=OnASlP1SFX0"><img src="http://img.youtube.com/vi/OnASlP1SFX0/0.jpg" alt="ScreenShot" /></a></p>
+
+:ET

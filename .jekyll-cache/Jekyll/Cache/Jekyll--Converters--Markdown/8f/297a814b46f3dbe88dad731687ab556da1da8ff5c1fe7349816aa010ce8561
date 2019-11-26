@@ -1,0 +1,28 @@
+I"þ<p>This is my customary update of percentage of <i>deep-learning papers</i> in the major vision conferences. At CVPR 2015, I described its <a href="http://localhost:4000/deep-learning-scraping/">exponential growth</a>, after ICCV 2015 I wondered whether it had <a href="http://localhost:4000/deep-learning-plateau/">plateaued</a>, and in CVPR 2016 it <a href="http://localhost:4000/deep-learning-plateau/deep-learning-takes-over-again/">took over again</a>.<br />
+<br />
+Here the evolution of the results as of ECCV 2016:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">CVPR2013</span><span class="p">:</span>  <span class="mf">0.85</span><span class="o">%</span> <span class="p">(</span>  <span class="mi">4</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">471</span><span class="p">)</span>
+<span class="n">ICCV2013</span><span class="p">:</span>  <span class="mf">1.54</span><span class="o">%</span> <span class="p">(</span>  <span class="mi">7</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">455</span><span class="p">)</span>
+<span class="n">CVPR2014</span><span class="p">:</span>  <span class="mf">3.70</span><span class="o">%</span> <span class="p">(</span> <span class="mi">20</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">540</span><span class="p">)</span>
+<span class="n">CVPR2015</span><span class="p">:</span> <span class="mf">14.45</span><span class="o">%</span> <span class="p">(</span> <span class="mi">87</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">602</span><span class="p">)</span>
+<span class="n">ICCV2015</span><span class="p">:</span> <span class="mf">14.45</span><span class="o">%</span> <span class="p">(</span> <span class="mi">76</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">526</span><span class="p">)</span>
+<span class="n">CVPR2016</span><span class="p">:</span> <span class="mf">23.48</span><span class="o">%</span> <span class="p">(</span><span class="mi">151</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">643</span><span class="p">)</span>
+<span class="n">ECCV2016</span><span class="p">:</span> <span class="mf">20.96</span><span class="o">%</span> <span class="p">(</span> <span class="mi">87</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">415</span><span class="p">)</span></code></pre></figure>
+
+<p>And the plot using XKCD style, as described in this <a href="http://localhost:4000/xkcd-deep-learning/">blog post</a>:
+<br />
+<br />
+<img align="middle" width="500" src="http://localhost:4000/images/xkcd_deep2.png" alt="..." />
+<br />
+<br /></p>
+
+<p>So in ICCV15 we had in fact a pit stop which has been surpassed by CVPR16 and ECCV16.
+Will ECCV16 be also a pit stop or we will be finally saturating?<br /><br /></p>
+
+<p>It is also interesting to note the smaller size of ECCV compared to the rest. I prefer it this way, to be honest:</p>
+<blockquote class="twitter-tweet" data-lang="ca"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/CVPR2016?src=hash">#CVPR2016</a> reflexions<br />- Orals with papers at arXiv long time before and even outdated already.<br />- Posters too crowded to discuss with authors.</p>&mdash; Jordi Pont-Tuset (@jponttuset) <a href="https://twitter.com/jponttuset/status/748199856930357250">29 de juny de 2016</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>See you in Amsterdam!</p>
+:ET

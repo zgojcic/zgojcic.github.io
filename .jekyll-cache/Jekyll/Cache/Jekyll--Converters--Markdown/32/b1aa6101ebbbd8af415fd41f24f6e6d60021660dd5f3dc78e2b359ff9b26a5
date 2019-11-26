@@ -1,0 +1,9 @@
+I"U<p>Once more, let’s plot the evolution of deep learning in the major vision conferences.
+Here you can check the <a href="http://localhost:4000/dl-lstm-gan-evolution">previous</a> <a href="http://localhost:4000/deep-learning-scraping/">posts</a> <a href="http://localhost:4000/deep-learning-plateau/">of</a> <a href="http://localhost:4000/deep-learning-takes-over-again/">the</a> <a href="http://localhost:4000/deep-learning-evolution/">saga</a>.<br />
+<br />
+Here the plot using XKCD style, as described in this <a href="http://localhost:4000/xkcd-deep-learning/">blog post</a>, where again we separate the two conferences, as introduced in my <a href="http://localhost:4000/dl-lstm-gan-evolution">previous post</a>.
+<br />
+<img align="middle" width="500" src="http://localhost:4000/images/dl_evolution_separated_2.png" alt="..." />
+<br />
+<br /></p>
+:ET
