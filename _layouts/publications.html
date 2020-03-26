@@ -99,7 +99,28 @@ div.bibtex pre { font-size: 75%; overflow: auto;  width: 100%; padding: 0em 0em;
     {% include _author-bio.html %}
   </div>
   <article>
-	
+
+		<div class="publication_entry">
+	<img src="/images/publications/Multiview_CVPR2020.jpg" border= "5px solid" width="250px" height="150px" alt="Teaser" align="left" style="margin:5px 8px 8px 5px; border: #aaaaaa 3px solid">
+	<p class="title_font"> Learning multiview 3D point cloud registration </p>
+  <p class="authors_font"> Zan Gojcic,  <a href="https://gseg.igp.ethz.ch/people/scientific-assistance/caifa-zhou.html" target="_blank"> Caifa Zhou, </a> <a href="https://igp.ethz.ch/personen/person-detail.html?persid=186562" target="_blank">  Jan D. Wegner</a>
+    <a href="https://geometry.stanford.edu/member/guibas/" target="_blank">  Leonidas J. Guibas </a> <a href="http://tbirdal.me/" target="_blank">  Tolga Birdal </a> </p>
+	<p class="authors_font"> IEEE Computer Vision and Pattern Recognition (CVPR), 2020 </p>
+	<p class="body_font"> We present a novel, end-to-end learnable, multiview 3Dpoint cloud registration algorithm.   Registration of multi-ple scans typically follows a two-stage pipeline:  the initialpairwise alignment and the globally consistent refinement.The former is often ambiguous due to the low overlap ofneighboring point clouds, symmetries and repetitive sceneparts.   Therefore,  the latter  global refinement  aims at  es-tablishing the cyclic consistency across multiple scans andhelps in resolving the ambiguous cases.  In this paper wepropose, to the best of our knowledge, the first end-to-endalgorithm for joint learning of both parts of this two-stageproblem. Experimental evaluation on well accepted bench-mark  datasets  shows  that  our  approach  outperforms  thestate-of-the-art by a significant margin, while being end-to-end trainable and computationally less costly. Moreover, wepresent detailed analysis and an ablation study that validatethe novel components of our approach. </p>
+	<p style="font-family: 'Lato'; sans-serif; font-size: 14px; font-weight: bold; line-height: 16px; margin-top: 10px; margin-left: 5px;; margin-bottom: 5px"> <a href="https://arxiv.org/abs/2001.05119"> <i class="fa fa-file-pdf-o" style="font-size:24px;color:red"></i> PDF &nbsp&nbsp </a> <a href="https://github.com/zgojcic/3D_multiview_reg"> <i class="fa fa-github" style="font-size:24px"></i> Code &nbsp&nbsp</a> 
+    <a href="javascript:toggleBibtex('gojcic2020multiview')"> BibTeX </a> </p>
+  </div>
+		<div id="bib_gojcic2020multiview" class="bibtex noshow">
+<pre>
+@inproceedings{gojcic2019multiview,
+  title={Learning multiview 3D point cloud registration},
+  author={Gojcic, Zan and Zhou, Caifa and Wegner, Jan D and Guibas, Leonidas J and Birdal, Tolga},
+  booktitle={IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year={2020}
+}
+</pre>
+</div>
+<br>
 	<div class="publication_entry">
 	<img src="/images/publications/3DSmoothNet.jpg" border= "5px solid" width="250px" height="100px" alt="Teaser" align="left" style="margin:5px 8px 8px 5px; border: #aaaaaa 3px solid">
 	<p class="title_font"> The Perfect Match: 3D Point Cloud Matching with Smoothed Densities</p>
@@ -121,7 +142,8 @@ div.bibtex pre { font-size: 75%; overflow: auto;  width: 100%; padding: 0em 0em;
 }
 </pre>
 </div>
-	<br>
+  <br>
+  
 		<div class="publication_entry">
 	<img src="/images/publications/JISDM.jpg" border= "5px solid" width="250px" height="150px" alt="Teaser" align="left" style="margin:5px 8px 8px 5px; border: #aaaaaa 3px solid">
 	<p class="title_font"> Robust pointwise correspondences for point cloud based deformation monitoring of natural scenes </p>
