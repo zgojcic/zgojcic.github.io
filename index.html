@@ -1,0 +1,526 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">google.load("jquery", "1.3.2");</script>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<style type="text/css">
+    body {
+        font-family: "Titillium Web", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        font-weight: 400;
+        font-size: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 1200px;
+    }
+
+
+
+    a:link,
+    a:visited {
+        color: #1F407A;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #1269B0;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        text-align: center;
+    }
+
+    h1 {
+        font-weight: 450;
+        line-height: 1.25em;
+    }
+
+    h2 {
+        font-size: 1.75em;
+        font-weight: 200;
+        margin: 16px 0px 4px 0px;
+    }
+
+    h3 {
+        font-weight: 300;
+        font-size: 1.15em;
+    }
+
+    h4 {
+        font-weight: 400;
+        font-size: 1em;
+    }
+
+    .title {
+        padding: 20px 0px 20px 0px;
+    }
+
+    .fa-scholar {
+        content: url('assets/google-scholar.svg');
+        height: 1em;
+        width: auto;
+    }
+
+    section {
+        margin: 16px 0px 16px 0px;
+        text-align: justify;
+        clear: both;
+        line-height: 1.25em;
+    }
+
+    .author-row {
+        font-size: 18px;
+    }
+
+    .affil-row {
+        font-size: 16px;
+    }
+
+
+    .teaser {
+        max-width: 100%;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .screenshot {
+        width: 256px;
+        border: 1px solid #ddd;
+    }
+
+    .screenshot-el {
+        margin-bottom: 16px;
+    }
+
+    hr {
+        height: 1px;
+        border: 0;
+        border-top: 1px solid #ddd;
+        margin: 0;
+    }
+
+    .material-icons {
+        vertical-align: -6px;
+    }
+
+    p {
+        line-height: 1.25em;
+    }
+
+    .caption {
+        font-size: 14px;
+        /*font-style: italic;*/
+        color: #666;
+        text-align: left;
+        margin-top: 6px;
+        margin-bottom: 8px;
+    }
+
+
+    figure {
+        display: block;
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #bibtex pre {
+        font-size: 14px;
+        background-color: #eee;
+        padding: 16px;
+    }
+
+
+    .flex-row {
+        display: flex;
+        padding-top: 0px;
+        flex-flow: row wrap;
+        justify-content: space-around;
+        line-height: 1.5em;
+
+    }
+
+    .paper-btn {
+        position: relative;
+        text-align: center;
+
+        display: block;
+        margin: 30px auto;
+        padding: 8px 8px;
+
+        border-width: 0;
+        outline: none;
+        border-radius: 2px;
+
+        background-color: #2269a0;
+        color: #d5e9ee !important;
+        font-size: 20px;
+        width: 100px;
+        font-weight: 600;
+    }
+
+    .paper-btn:hover {
+        opacity: 0.85;
+    }
+
+    .container {
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 16px;
+        padding-right: 16px;
+        width: 1000px;
+        text-align: center;
+    }
+
+
+    .col-5 {
+        width: 20%;
+        float: left;
+    }
+
+    .col-3 {
+        width: 33%;
+        float: left;
+    }
+
+    .col-2 {
+        width: 50%;
+        float: left;
+    }
+
+
+    .author-row p {
+        text-align: center;
+        line-height: 0px;
+    }
+
+    .author-row img {
+        width: 57%;
+        border-radius: 100%;
+    }
+
+    .author-row,
+    .affil-row {
+        overflow: auto;
+        margin-top: 10px;
+    }
+
+    .glb-row {
+        overflow: auto;
+        margin-top: 20px;
+        width: 1200px;
+    }
+
+    .centered {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+    .button_row {
+        display: flex;
+        width: 600px;
+
+    }
+
+    .bs {
+        background-color: rgb(45, 77, 182);
+        border: 1px solid rgb(195, 195, 195);
+        color: white;
+        width: 120px;
+        height: 40px;
+        font-size: 0.9em;
+        font-weight: 500;
+        margin: 15px;
+        box-shadow: 2px 2px rgb(195, 195, 195), 2px 2px rgb(195, 195, 195), 1px 1px rgb(195, 195, 195);
+    }
+
+    .bs:hover {
+        opacity: 0.85;
+    }
+
+    mark {
+        border: 0.2px solid rgb(195, 195, 195);
+        font-size: 1em;
+        padding-left: 4px;
+        padding-right: 4px;
+        font-weight: 550;
+        background-color: rgb(45, 77, 182);
+        margin-right: 10px;
+        color: white;
+    }
+
+    .publication_entry {
+        padding: 2px 6px 4px 6px;
+        color: #555555;
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+
+<!-- End : Google Analytics Code -->
+<script type="text/javascript" src="../js/hidebib.js"></script>
+
+<link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,600,400italic,600italic,300,300italic'
+    rel='stylesheet' type='text/css'>
+
+<head>
+    <title>Weakly Supervised Learning of Rigid 3D Scene Flow</title>
+    <meta property="og:description" content="Weakly Supervised Learning of Rigid 3D Scene Flow" />
+    <script src="https://kit.fontawesome.com/6e21e18363.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/academicons.min.css" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@ZGojcic">
+    <meta name="twitter:title" content="Weakly Supervised Learning of Rigid 3D Scene Flow">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:image" content="https://zgojcic.github.io/ws3dsf/assets/teaser.jpg">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6HHDEXF452"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-6HHDEXF452');
+    </script>
+
+</head>
+
+<body>
+    <div class="container">
+
+
+        <h2>Zan Gojcic</h2>
+        <hr>
+        <div class="flex-row">
+            <div style="width: 60%">
+                <section id="abstract">
+                    I am a final year PhD student at ETH Zurich advised by <a
+                        href="https://baug.ethz.ch/en/department/people/staff/personen-detail.MTg3NzU5.TGlzdC82NzksLTU1NTc1NDEwMQ==.html">Andreas
+                        Wieser</a> and <a href="https://igp.ethz.ch/personen/person-detail.html?persid=186562">Jan D.
+                        Wegner</a>. My research interests are focused around 3D deep learning, weakly supervised
+                    learning, and representation learning for tasks such as point cloud registration, scene flow
+                    estimation, and scene understanding.
+                    Previously, I have visited the geometric computation group led by <a
+                        href='https://geometry.stanford.edu/member/guibas/'>Leonidas Guibas</a> at Stanford University,
+                    where I had the opportunity to work with <a href='http://tbirdal.me/'>Tolga Birdal</a> and <a
+                        href='http://srinathsridhar.com/'>Srinath Sridhar</a>.
+                    Currently, I am interning as a research scientist at NVIDIA AI Lab under supervision of <a
+                        href=https://orlitany.github.io />Or Litany</a> and <a
+                        href='https://www.cs.utoronto.ca/~fidler/'>Sanja Fidler</a>.
+                    Outside of research I enjoy travelling, playing soccer, cooking, and spending quality time with my
+                    friends.
+                    <br></br>
+                    Email: zan dot gojcic at gmail dot com
+                    <br></br>
+                    <div style="width: 100%;text-align:center">
+                        <div style="width:20%;float: left;">
+                            <a href="https://scholar.google.com/citations?user=8KsqL4gAAAAJ&hl=en"><i class="fa fa-scholar ai-2x"></i></a>
+                        </div>
+                        <div style="width:20%;float: left;">
+                            <a href="https://github.com/zgojcic"><i class="fa fa-github ai-2x"></i></a>
+                        </div>
+                        <div style="width:20%;float: left;">
+                            <a href="https://twitter.com/ZGojcic"><i class="fa fa-twitter ai-2x"></i></a>
+                        </div>
+                        <div style="width:20%;float: left;">
+                            <a href="https://www.linkedin.com/in/zan-gojcic-92104b107/"><i class="fa fa-linkedin ai-2x"></i></a>
+                        </div>
+                        <div style="width:20%;float: left;">
+                            <a href="https://arxiv.org/pdf/2102.08945.pdf"><i class="fa fa-file-pdf-o ai-2x"></i></a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div style="width: 37.2%">
+                <section id="abstract">
+                    <figure style="padding-left: 24px; padding-top: 8px; margin-bottom: 0">
+                        <img width="100%" src="assets/zan_gojcic.png">
+                    </figure>
+                </section>
+            </div>
+        </div>
+
+
+
+
+        <h2>News</h2>
+        <hr>
+        <div style="width: 100%;text-align:left">
+            <ul>
+                <li span><mark>New</mark> Two first author papers accepted for oral presentation at CVPR 2021! </li>
+                <li span> At the begining of march I will join Nvidia AI Lab as a research intern. </li>
+                <li span> One paper accepted to NeurIPS 2020. </li>
+                <li span> One paper accepted to CVPR 2020. </li>
+                <li span> At the start of 2020 I will join the group of Leonidas Guibas at Stanford University for a
+                    research visit. </li>
+                <li span> One paper accepted to CVPR 2019. </li>
+
+            </ul>
+        </div>
+
+        <h2>Publications</h2>
+        <hr>
+
+        <div class="flex-row">
+            <div style="width: 32%">
+                <figure style="padding-top: 8px">
+                    <img src="assets/wsrsf.png">
+                </figure>
+            </div>
+            <div style="width: 65%; text-align:left; padding-top: 10px;">
+                <span style="color: rgb(45, 77, 182)">Weakly Supervised Learning of Rigid 3D Scene Flow </span> <br>
+                <span style="font-size: 17px; line-height: 17pt;"> <b>Zan Gojcic</b>, Or Litany, Andreas Wieser,
+                    Leonidas Guibas, Tolga Birdal </span> <br>
+                <span style="font-size: 17px; line-height: 17pt"> Computer Vision and Pattern Recognition (CVPR), 2021
+                </span> <br>
+                <span style="font-size: 17px; line-height: 17pt;"> <b>Oral Presentation</b> </span> <br>
+                <span style="font-size: 20px; line-height: 20pt;"> <a
+                        href="https://arxiv.org/abs/2102.08945"><b>PDF</b></a> /
+                    <a href="https://github.com/zgojcic/Rigid3DSceneFlow"><b>Code</b></a> /
+                    <a href="https://3dsceneflow.github.io/"><b>Project page</b></a> </span>
+
+                <br>
+                <br></br>
+
+
+            </div>
+        </div>
+
+
+        <div class="flex-row">
+            <div style="width: 32%">
+                <figure style="padding-top: 8px">
+                    <img width="100%" src="assets/predator.png">
+                </figure>
+            </div>
+            <div style="width: 65%; text-align:left; padding-top: 10px;">
+                <span style="color: rgb(45, 77, 182)">PREDATOR: Registration of 3D Point Clouds with Low Overlap </span>
+                <br>
+                <span style="font-size: 17px; line-height: 17pt;"> Shengyu Huang*, <b>Zan Gojcic*</b>, Mikhail
+                    Usvyatsov, Andreas Wieser, Konrad Schindler </span> <br>
+                <span style="font-size: 17px; line-height: 17pt"> Computer Vision and Pattern Recognition (CVPR), 2021
+                </span> <br>
+                <span style="font-size: 17px; line-height: 17pt;"> <b>Oral Presentation</b> </span> <br>
+                <span style="font-size: 20px; line-height: 20pt;"> <a
+                        href="https://arxiv.org/abs/2011.13005"><b>PDF</b></a> /
+                    <a href="https://github.com/ShengyuH/OverlapPredator"><b>Code</b></a> /
+                    <a href="https://overlappredator.github.io/"><b>Project page</b></a> </span>
+
+                <br>
+                <br></br>
+
+
+            </div>
+        </div>
+
+        <div class="flex-row">
+            <div style="width: 32%">
+                <figure style="padding-top: 8px">
+                    <img width="100%" src="assets/caspr.png">
+                </figure>
+            </div>
+            <div style="width: 65%; text-align:left; padding-top: 10px;">
+                <span style="color: rgb(45, 77, 182)">CaSPR: Learning Canonical Spatiotemporal Point Cloud
+                    Representations</span> <br>
+                <span style="font-size: 17px; line-height: 17pt;"> Davis Rempe, Tolga Birdal, Yongheng Zhao, <b>Zan
+                        Gojcic</b>, Srinath Sridhar, Leonidas Guibas </span> <br>
+                <span style="font-size: 17px; line-height: 17pt"> Neural Information Processing Systems (NeurIPS), 2020
+                </span> <br>
+                <span style="font-size: 17px; line-height: 17pt;"> <b>Spotlight Presentation</b> </span> <br>
+                <span style="font-size: 20px; line-height: 20pt;"> <a
+                        href="https://arxiv.org/abs/2008.02792"><b>PDF</b></a> /
+                    <a href="https://github.com/davrempe/caspr"><b>Code</b></a> /
+                    <a href="https://geometry.stanford.edu/projects/caspr/"><b>Project page</b></a> </span>
+
+                <br>
+                <br></br>
+            </div>
+        </div>
+
+        <div class="flex-row">
+            <div style="width: 32%">
+                <figure style="padding-top: 8px">
+                    <img width="100%" src="assets/lm3dpcr.png">
+                </figure>
+            </div>
+            <div style="width: 65%; text-align:left; padding-top: 10px;">
+                <span style="color: rgb(45, 77, 182)">Learning Multiview 3D Point Cloud Registration</span> <br>
+                <span style="font-size: 17px; line-height: 17pt;"> <b>Zan Gojcic*</b>, Caifa Zhou*, Jan D. Wegner,
+                    Leonidas Guibas, Tolga Birdal </span> <br>
+                <span style="font-size: 17px; line-height: 17pt"> Computer Vision and Pattern Recognition (CVPR), 2020
+                </span> <br>
+                <span style="font-size: 20px; line-height: 20pt;"> <a
+                        href="https://arxiv.org/abs/2001.05119"><b>PDF</b></a> /
+                    <a href="https://github.com/zgojcic/3D_multiview_reg"><b>Code</b></a></span>
+
+                <br>
+                <br></br>
+
+
+            </div>
+        </div>
+
+        <div class="flex-row">
+            <div style="width: 32%">
+                <figure style="padding-top: 8px">
+                    <img width="100%" src="assets/3dsmoothnet.png">
+                </figure>
+            </div>
+            <div style="width: 65%; text-align:left; padding-top: 10px;">
+                <span style="color: rgb(45, 77, 182)">The Perfect Match: 3D Point Cloud Matching with Smoothed
+                    Densities</span> <br>
+                <span style="font-size: 17px; line-height: 17pt;"> <b>Zan Gojcic</b>, Caifa Zhou, Jan D. Wegner, Andreas
+                    Wieser </span> <br>
+                <span style="font-size: 17px; line-height: 17pt"> Computer Vision and Pattern Recognition (CVPR), 2019
+                </span> <br>
+                <span style="font-size: 20px; line-height: 20pt;"> <a
+                        href="https://arxiv.org/abs/1811.06879"><b>PDF</b></a> /
+                    <a href="https://github.com/zgojcic/3DSmoothNet"><b>Code</b></a></span>
+
+                <br>
+                <br></br>
+
+
+            </div>
+
+        </div>
+
+        <div class="flex-row">
+            <div style="width: 32%">
+                <figure style="padding-top: 8px">
+                    <img width="100%" src="assets/mlag.png">
+                </figure>
+            </div>
+            <div style="width: 65%; text-align:left; padding-top: 10px;">
+                <span style="color: rgb(45, 77, 182)">Machine learning and geodesy: a survey</span> <br>
+                <span style="font-size: 17px; line-height: 17pt;"> Jemil Butt, Andreas Wieser, <b>Zan Gojcic</b>, Caifa Zhou</span> <br>
+                <span style="font-size: 17px; line-height: 17pt"> Journal of Applied Geodesy, 2021
+                </span> <br>
+                <span style="font-size: 20px; line-height: 20pt;"> <a
+                        href="assets/ML_and_Geodesy_JB_AW_ZG_CZ_JAG.pdf"><b>PDF</b></a></span>
+
+                <br>
+                <br></br>
+
+
+            </div>
+
+        </div>
+
+        <div class="flex-row">
+            <div style="width: 100%; text-align:left; padding-left: 10px;">
+                <span style="text-align: left"> (*) Denotes equal contributions. </span>
+            </div>
+        </div>
+
+</body>
+
+</html>
