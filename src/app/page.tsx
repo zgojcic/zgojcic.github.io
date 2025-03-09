@@ -8,8 +8,6 @@ import { NewsEntry } from "@/components/news-entry";
 import { newsData } from "@/data/news";
 import { ExperienceEntry } from "@/components/experience-entry";
 import { experienceData } from "@/data/experience";
-import { PortfolioEntry } from "@/components/portfolio-entry";
-import { portfolioData } from "@/data/portfolio";
 import { sectionOrder, Section } from "@/data/section-order";
 
 export default function Home() {
@@ -108,21 +106,6 @@ export default function Home() {
                               key={index}
                               experience={experience}
                             />
-                          ))}
-                        </div>
-                      </section>
-                    )
-                  );
-                case Section.Portfolio:
-                  return (
-                    portfolioData.length > 0 && (
-                      <section key={sectionName}>
-                        <h2 className="font-serif text-md mb-12 tracking-wide uppercase">
-                          Portfolio
-                        </h2>
-                        <div className="space-y-12">
-                          {portfolioData.map((portfolio, index) => (
-                            <PortfolioEntry key={index} portfolio={portfolio} />
                           ))}
                         </div>
                       </section>
