@@ -28,7 +28,7 @@ const boldMyName = (authors: string) => {
 export const publicationData: Publication[] = [
   // If you don't want to show publications, just make the array empty.
   {
-    year: "2025",
+    year: "2025 - Oral",
     conference: "CVPR",
     title: "3DGUT: Enabling Distorted Cameras and Secondary Rays in Gaussian Splatting",
     authors: boldMyName("Qi Wu*, Janick Martinez Esturo*, Ashkan Mirzaei, Nicolas Moenne-Loccoz, Zan Gojcic"),
@@ -44,7 +44,7 @@ export const publicationData: Publication[] = [
     highlighted: true
   },
   {
-    year: "2025",
+    year: "2025 - Oral",
     conference: "CVPR",
     title: "DiffusionRenderer: Neural Inverse and Forward Rendering with Video Diffusion Models",
     authors: boldMyName("Ruofan Liang*, Zan Gojcic, Huan Ling, Jacob Munkberg, Jon Hasselgren, Zhi-Hao Lin, Jun Gao, Alexander Keller, Nandita Vijaykumar, Sanja Fidler, Zian Wang*"),
@@ -59,7 +59,7 @@ export const publicationData: Publication[] = [
     highlighted: true
   },
   {
-    year: "2025",
+    year: "2025 - Oral",
     conference: "CVPR",
     title: "Difix3D+: Improving 3D Reconstructions with Single-Step Diffusion Models",
     authors: boldMyName("Jay Zhangjie Wu*, Yuxuan Zhang*, Haithem Turki, Xuanchi Ren, Jun Gao, Mike Zheng Shou, Sanja Fidler, Zan Gojcic*, Huan Ling*"),
