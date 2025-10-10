@@ -17,7 +17,7 @@ export interface Publication {
 const boldMyName = (authors: string) => {
   // Using a special delimiter that we can split on later
   const namesToBold = ['Zan Gojcic'];
-  
+
   let result = authors;
   namesToBold.forEach(name => {
     result = result.replace(name, `|||${name}|||`);
@@ -30,18 +30,74 @@ export const publicationData: Publication[] = [
   {
     year: "2025",
     conference: "ArXiv",
+    title: "Lyra: Generative 3D Scene Reconstruction via Video Diffusion Model Self-Distillation",
+    authors: boldMyName("Sherwin Bahmani, Tianchang Shen, Jiawei Ren, Jiahui Huang, Yifeng Jiang, Haithem Turki, Andrea Tagliasacchi, David B. Lindell, Zan Gojcic, Sanja Fidler, Huan Ling, Jun Gao*, Xuanchi Ren*"),
+    projectUrl: "https://research.nvidia.com/labs/toronto-ai/lyra/",
+    codeUrl: "https://github.com/nv-tlabs/lyra",
+    paperUrl: "https://arxiv.org/abs/2509.19296",
+    bibtex: `@article{bahmani2025lyra,
+              title={Lyra: Generative 3D Scene Reconstruction via Video Diffusion Model Self-Distillation},
+              author={Bahmani, Sherwin and Shen, Tianchang and Ren, Jiawei and Huang, Jiahui and Jiang, Yifeng and
+                Turki, Haithem and Tagliasacchi, Andrea and Lindell, David B. and Gojcic, Zan and
+                Fidler, Sanja and Ling, Huan and Gao, Jun and Ren, Xuanchi},
+                journal={arXiv preprint arXiv:2509.19296},
+                year={2025}}`,
+    imageUrl:"assets/lyra_compressed.gif",
+  },
+  {
+    year: "2025 - Spotlight",
+    conference: "NeurIPS",
+    title: "UniRelight: Learning Joint Decomposition and Synthesis for Video Relighting",
+    authors: boldMyName("Kai He, Ruofan Liang, Jacob Munkberg, Jon Hasselgren, Nandita Vijaykumar, Alexander Keller, Sanja Fidler, Igor Gilitschenski, Zan Gojcic, Zian Wang"),
+    projectUrl: "https://research.nvidia.com/labs/toronto-ai/UniRelight/",
+    paperUrl: "https://arxiv.org/html/2506.15673v1",
+    bibtex: `@inproceedings{he2025unirelight,
+              title={UniRelight: Learning Joint Decomposition and Synthesis for Video Relighting},
+              author={He, Kai and Liang, Ruofan and Munkberg, Jacob and Hasselgren, Jon and Vijaykumar, Nandita and Keller, Alexander and Fidler, Sanja and Gilitschenski, Igor and Gojcic, Zan and Wang, Zian},
+              journal={NeurIPS},
+              year={2025}}`,
+    imageUrl:"assets/unirelight_compressed.gif",
+  },
+  {
+    year: "2025",
+    conference: "NeurIPS",
+    title: "LuxDiT: Lighting Estimation with Video Diffusion Transformer",
+    authors: boldMyName("Ruofan Liang, Kai He, Zan Gojcic, Igor Gilitschenski, Sanja Fidler, Nandita Vijaykumar, Zian Wang"),
+    projectUrl: "https://research.nvidia.com/labs/toronto-ai/LuxDiT/",
+    paperUrl: "https://arxiv.org/abs/2509.03680",
+    bibtex: `@inproceedings{liang2025luxdit,
+            title={LuxDiT: Lighting Estimation with Video Diffusion Transformer},
+            author={Liang, Ruofan and He, Kai and Gojcic, Zan and Gilitschenski, Igor and Fidler, Sanja and Vijaykumar, Nandita and Wang, Zian},
+            journal={NeurIPS},
+            year={2025}}`,
+    imageUrl:"assets/LuxDiT_compressed.gif",
+  },
+  {
+    year: "2025",
+    conference: "NeurIPS",
+    title: "Feed-Forward Bullet-Time Reconstruction of Dynamic Scenes from Monocular Videos",
+    authors: boldMyName("Hanxue Liang*, Jiawei Ren*, Ashkan Mirzaei*, Antonio Torralba, Ziwei Liu, Igor Gilitschenski, Sanja Fidler, Cengiz Oztireli, Huan Ling, Zan Gojcic*, Jiahui Huang*"),
+    paperUrl: "https://arxiv.org/abs/2412.03526",
+    projectUrl: "https://research.nvidia.com/labs/toronto-ai/bullet-timer/",
+    bibtex: `@inproceedings{liang2024feed,
+             title={Feed-Forward Bullet-Time Reconstruction of Dynamic Scenes from Monocular Videos},
+             author={Liang, Hanxue and Ren, Jiawei and Mirzaei, Ashkan and Torralba, Antonio and Liu, Ziwei and Gilitschenski, Igor and Fidler, Sanja and Oztireli, Cengiz and Ling, Huan and Gojcic, Zan and others},
+             journal={NeurIPS},
+             year={2025}}`,
+    imageUrl:"/assets/btimer.gif"
+  },
+  {
+    year: "2025",
+    conference: "ICCV",
     title: "Controllable Weather Synthesis and Removal with Video Diffusion Models",
     authors: boldMyName("Chih-Hao Lin, Zian Wang, Ruofan Liang, Yuxuan Zhang, Sanja Fidler, Shenlong Wang, Zan Gojcic"),
     projectUrl: "https://research.nvidia.com/labs/toronto-ai/WeatherWeaver/",
     paperUrl: "https://arxiv.org/abs/2505.00704",
-    bibtex: `@misc{lin2025controllableweathersynthesisremoval,
-      title={Controllable Weather Synthesis and Removal with Video Diffusion Models}, 
+    bibtex: `@inproceedings{lin2025controllableweathersynthesisremoval,
+      title={Controllable Weather Synthesis and Removal with Video Diffusion Models},
       author={Chih-Hao Lin and Zian Wang and Ruofan Liang and Yuxuan Zhang and Sanja Fidler and Shenlong Wang and Zan Gojcic},
       year={2025},
-      eprint={2505.00704},
-      archivePrefix={arXiv},
-      primaryClass={cs.GR},
-      url={https://arxiv.org/abs/2505.00704}}`,
+      booktitle = {ICCV}}`,
     imageUrl:"/assets/weatherweaver.gif",
   },
   {
@@ -51,11 +107,12 @@ export const publicationData: Publication[] = [
     authors: boldMyName("Jay Zhangjie Wu*, Yuxuan Zhang*, Haithem Turki, Xuanchi Ren, Jun Gao, Mike Zheng Shou, Sanja Fidler, Zan Gojcic*, Huan Ling*"),
     projectUrl: "https://research.nvidia.com/labs/toronto-ai/difix3d/",
     paperUrl: "https://arxiv.org/abs/2503.01774",
-    bibtex: `@article{wu2025difix3d+,
+    bibtex: `@inproceedings{wu2025difix3d+,
              title={Difix3D+: Improving 3D Reconstructions with Single-Step Diffusion Models},
              author={Wu, Jay Zhangjie and Zhang, Yuxuan and Turki, Haithem and Ren, Xuanchi and Gao, Jun and Shou, Mike Zheng and Fidler, Sanja and Gojcic, Zan and Ling, Huan},
-             journal={arXiv preprint arXiv:2503.01774},
+             journal={CVPR},
              year={2025}}`,
+    codeUrl: "https://github.com/nv-tlabs/Difix3D",
     imageUrl:"/assets/difix3d.gif",
     highlighted: true
   },
@@ -83,6 +140,7 @@ export const publicationData: Publication[] = [
     authors: boldMyName("Ruofan Liang*, Zan Gojcic, Huan Ling, Jacob Munkberg, Jon Hasselgren, Zhi-Hao Lin, Jun Gao, Alexander Keller, Nandita Vijaykumar, Sanja Fidler, Zian Wang*"),
     projectUrl: "https://research.nvidia.com/labs/toronto-ai/DiffusionRenderer/",
     paperUrl: "https://arxiv.org/abs/2501.18590",
+    codeUrl: "https://github.com/nv-tlabs/diffusion-renderer",
     bibtex: `@article{DiffusionRenderer,
              title = {DiffusionRenderer: Neural Inverse and Forward Rendering with Video Diffusion Models},
              author = {Ruofan Liang and Zan Gojcic and Huan Ling and Jacob Munkberg and Jon Hasselgren and Zhi-Hao Lin and Jun Gao and Alexander Keller and Nandita Vijaykumar and Sanja Fidler and Zian Wang},
@@ -109,20 +167,6 @@ export const publicationData: Publication[] = [
   },
   {
     year: "2024",
-    conference: "ArXiv",
-    title: "Feed-Forward Bullet-Time Reconstruction of Dynamic Scenes from Monocular Videos",
-    authors: boldMyName("Hanxue Liang*, Jiawei Ren*, Ashkan Mirzaei*, Antonio Torralba, Ziwei Liu, Igor Gilitschenski, Sanja Fidler, Cengiz Oztireli, Huan Ling, Zan Gojcic*, Jiahui Huang*"),
-    paperUrl: "https://arxiv.org/abs/2412.03526",
-    projectUrl: "https://research.nvidia.com/labs/toronto-ai/bullet-timer/",
-    bibtex: `@article{liang2024feed,
-             title={Feed-Forward Bullet-Time Reconstruction of Dynamic Scenes from Monocular Videos},
-             author={Liang, Hanxue and Ren, Jiawei and Mirzaei, Ashkan and Torralba, Antonio and Liu, Ziwei and Gilitschenski, Igor and Fidler, Sanja and Oztireli, Cengiz and Ling, Huan and Gojcic, Zan and others},
-             journal={arXiv preprint arXiv:2412.03526},
-             year={2024}}`,
-    imageUrl:"/assets/btimer.gif"
-  },
-  {
-    year: "2024",
     conference: "SiGGRAPH Asia",
     title: "3D Gaussian Ray Tracing: Fast Tracing of Particle Scenes",
     authors: boldMyName("Nicolas Moenne-Loccoz*, Ashkan Mirzaei*, Or Perel, Riccardo De Lutio, Janick Martinez Esturo, Gavriel State, Sanja Fidler, Nicholas Sharp*, Zan Gojcic*"),
@@ -145,7 +189,7 @@ export const publicationData: Publication[] = [
     paperUrl: "https://arxiv.org/abs/2408.09702",
     projectUrl: "https://research.nvidia.com/labs/toronto-ai/DiPIR/",
     bibtex: `@inproceedings{liang2024photorealistic,
-             title = {Photorealistic Object Insertion with Diffusion-Guided Inverse Rendering}, 
+             title = {Photorealistic Object Insertion with Diffusion-Guided Inverse Rendering},
              author = {Ruofan Liang and Zan Gojcic and Merlin Nimier-David and David Acuna and Nandita Vijaykumar and Sanja Fidler and Zian Wang},
              booktitle = {ECCV},
              year = {2024}}`,
@@ -222,7 +266,7 @@ export const publicationData: Publication[] = [
     projectUrl: "https://research.nvidia.com/labs/toronto-ai/flexicubes/",
     codeUrl: "https://github.com/nv-tlabs/FlexiCubes",
     bibtex: `@article{shen2023flexicubes,
-    author = {Shen, Tianchang and Munkberg, Jacob and Hasselgren, Jon and Yin, Kangxue and Wang, Zian 
+    author = {Shen, Tianchang and Munkberg, Jacob and Hasselgren, Jon and Yin, Kangxue and Wang, Zian
             and Chen, Wenzheng and Gojcic, Zan and Fidler, Sanja and Sharp, Nicholas and Gao, Jun},
     title = {Flexible Isosurface Extraction for Gradient-Based Mesh Optimization},
     year = {2023}}`,
@@ -316,7 +360,7 @@ export const publicationData: Publication[] = [
     codeUrl: "https://github.com/nv-tlabs/GET3D",
     bibtex: `@inproceedings{gao2022get3d,
              title={GET3D: A Generative Model of High Quality 3D Textured Shapes Learned from Images},
-             author={Jun Gao and Tianchang Shen and Zian Wang and Wenzheng Chen and Kangxue Yin 
+             author={Jun Gao and Tianchang Shen and Zian Wang and Wenzheng Chen and Kangxue Yin
                  and Daiqing Li and Or Litany and Zan Gojcic and Sanja Fidler},
              booktitle={Advances In Neural Information Processing Systems},
              year={2022}}`,
@@ -362,7 +406,7 @@ export const publicationData: Publication[] = [
     paperUrl: "https://arxiv.org/abs/2111.13674",
     projectUrl: "https://nv-tlabs.github.io/nkf/",
     bibtex: `@inproceedings{williams2021nkf,
-                title={Neural Fields as Learnable Kernels for 3D Reconstruction}, 
+                title={Neural Fields as Learnable Kernels for 3D Reconstruction},
                 author={Francis Williams and Zan Gojcic and Sameh Khamis and Denis Zorinand Joan Bruna and Sanja Fidler and Or Litany},
                 year={2022},
                 booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}}`,
@@ -377,7 +421,7 @@ export const publicationData: Publication[] = [
     projectUrl: "https://3dsceneflow.github.io/",
     codeUrl: "https://github.com/zgojcic/Rigid3DSceneFlow",
     bibtex: `@inproceedings{gojcic2021weakly3dsf,
-              title = {Weakly {S}upervised {L}earning of {R}igid {3D} {S}cene {F}low}, 
+              title = {Weakly {S}upervised {L}earning of {R}igid {3D} {S}cene {F}low},
               author = {Gojcic, Zan and Litany, Or and Wieser, Andreas and Guibas, Leonidas J and Birdal, Tolga},
               booktitle={IEEE Conference on Computer Vision and Pattern Recognition, CVPR},
               year={2021}}`,

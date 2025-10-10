@@ -23,7 +23,7 @@ export const aboutMe: AboutMe = {
   institution: "NVIDIA",
   // Note that links work in the description
   description:
-    "I'm a research manager at NVIDIA in Zurich, where I lead a small team dedicated to advancing neural reconstruction and generative methods for data-driven simulation. Our main goal is to develop simulation environments in which autonomous agents can be trained and evaluated in closed-loop.",
+    "I'm a Senior Research Manager at NVIDIA in Zurich, leading a team focused on advancing neural reconstruction and generative world simulation for PhysicalAI. Our mission is to develop high-fidelity simulation environments that enable autonomous agents to be trained and evaluated in closed-loop systems.",
   email: "zan.gojcic@gmail.com",
   imageUrl: "/assets/zg.jpeg",
   googleScholarUrl: "https://scholar.google.com/citations?user=8KsqL4gAAAAJ&hl=en",
