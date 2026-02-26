@@ -28,8 +28,8 @@ const boldMyName = (authors: string) => {
 export const publicationData: Publication[] = [
   // If you don't want to show publications, just make the array empty.
   {
-    year: "2025",
-    conference: "ArXiv",
+    year: "2026",
+    conference: "ICLR",
     title: "Lyra: Generative 3D Scene Reconstruction via Video Diffusion Model Self-Distillation",
     authors: boldMyName("Sherwin Bahmani, Tianchang Shen, Jiawei Ren, Jiahui Huang, Yifeng Jiang, Haithem Turki, Andrea Tagliasacchi, David B. Lindell, Zan Gojcic, Sanja Fidler, Huan Ling, Jun Gao*, Xuanchi Ren*"),
     projectUrl: "https://research.nvidia.com/labs/toronto-ai/lyra/",
@@ -43,6 +43,21 @@ export const publicationData: Publication[] = [
                 journal={arXiv preprint arXiv:2509.19296},
                 year={2025}}`,
     imageUrl:"assets/lyra_compressed.gif",
+  },
+  {
+    year: "2026",
+    conference: "ICLR",
+    title: "SimULi: Real-Time LiDAR and Camera Simulation with Unscented Transforms",
+    authors: boldMyName("Haithem Turki, Qi Wu, Xin Kang, Janick Martinez Esturo, Shengyu Huang, Ruilong Li, Zan Gojcic, Riccardo de Lutio"),
+    projectUrl: "https://research.nvidia.com/labs/sil/projects/simuli/",
+    paperUrl: "https://arxiv.org/abs/2510.12901",
+    bibtex: `@inproceedings{turki2026simuli,
+            title={SimULi: Real-Time LiDAR and Camera Simulation with Unscented Transforms},
+            author={Turki, Haithem and Wu, Qi and Kang, Xin and Martinez Esturo, Janick and
+                    Huang, Shengyu and Li, Ruilong and Gojcic, Zan and de Lutio, Riccardo},
+            booktitle={International Conference on Learning Representations (ICLR)},
+            year={2026}}`,
+    imageUrl:"assets/simuli.gif",
   },
   {
     year: "2025 - Spotlight",
