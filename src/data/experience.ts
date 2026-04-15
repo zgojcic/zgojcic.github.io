@@ -11,7 +11,7 @@ export interface Experience {
 export const experienceData: Experience[] = [
   {
     date: "11/2021 - Ongoing",
-    title: "Senior Research Manager",
+    title: "Director of Research",
     company: "NVIDIA",
     manager: "Prof. Sanja Fidler",
   },
