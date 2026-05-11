@@ -27,21 +27,21 @@ const boldMyName = (authors: string) => {
 
 export const publicationData: Publication[] = [
   // If you don't want to show publications, just make the array empty.
-  {
-    year: "2026",
-    conference: "ArXiv",
-    title: "Lyra 2.0: Explorable Generative 3D Worlds",
-    authors: boldMyName("Tianchang Shen*, Sherwin Bahmani, Kai He, Sangeetha Grama Srinivasan, Tianshi Cao, Jiawei Ren, Ruilong Li, Zian Wang, Nicholas Sharp, Zan Gojcic, Sanja Fidler, Jiahui Huang, Huan Ling, Jun Gao, Xuanchi Ren*"),
-    projectUrl: "https://research.nvidia.com/labs/sil/projects/lyra2/",
-    codeUrl: "https://github.com/nv-tlabs/lyra",
-    paperUrl: "https://arxiv.org/abs/2604.13036",
-    bibtex: `@article{shen2026lyra2,
-    title={Lyra 2.0: Explorable Generative 3D Worlds},
-    author={Shen, Tianchang and Bahmani, Sherwin and He, Kai and Srinivasan, Sangeetha Grama and Cao, Tianshi and Ren, Jiawei and Li, Ruilong and Wang, Zian and Sharp, Nicholas and Gojcic, Zan and Fidler, Sanja and Huang, Jiahui and Ling, Huan and Gao, Jun and Ren, Xuanchi},
-    journal={arXiv preprint arXiv:2604.13036},
-    year={2026}}`,
-    imageUrl:"assets/lyra2.gif",
-  },
+  // {
+  //   year: "2026",
+  //   conference: "ArXiv",
+  //   title: "Lyra 2.0: Explorable Generative 3D Worlds",
+  //   authors: boldMyName("Tianchang Shen*, Sherwin Bahmani, Kai He, Sangeetha Grama Srinivasan, Tianshi Cao, Jiawei Ren, Ruilong Li, Zian Wang, Nicholas Sharp, Zan Gojcic, Sanja Fidler, Jiahui Huang, Huan Ling, Jun Gao, Xuanchi Ren*"),
+  //   projectUrl: "https://research.nvidia.com/labs/sil/projects/lyra2/",
+  //   codeUrl: "https://github.com/nv-tlabs/lyra",
+  //   paperUrl: "https://arxiv.org/abs/2604.13036",
+  //   bibtex: `@article{shen2026lyra2,
+  //   title={Lyra 2.0: Explorable Generative 3D Worlds},
+  //   author={Shen, Tianchang and Bahmani, Sherwin and He, Kai and Srinivasan, Sangeetha Grama and Cao, Tianshi and Ren, Jiawei and Li, Ruilong and Wang, Zian and Sharp, Nicholas and Gojcic, Zan and Fidler, Sanja and Huang, Jiahui and Ling, Huan and Gao, Jun and Ren, Xuanchi},
+  //   journal={arXiv preprint arXiv:2604.13036},
+  //   year={2026}}`,
+  //   imageUrl:"assets/lyra2.gif",
+  // },
   {
     year: "2026",
     conference: "ArXiv",
